@@ -1,0 +1,66 @@
+from Paper import *
+
+# load stop words into memory
+def load_stop_words() :
+    stop_words_file = open('../data/stop_words', "r")
+    stop_words = set(x.strip() for x in \
+            stop_words_file.read().strip().split('\n'))
+    stop_words_file.close()
+    return stop_words
+
+
+# load paper data into memory
+def load_data(filename) :
+    result = []
+
+    stop_words = load_stop_words
+
+    f = open(filename)
+
+    index = -1
+    title = ""
+    author_list = ""
+    org_list = ""
+    year = -1
+    conf = ""
+    abstract = ""
+    no = -1
+
+    for line in f:
+        if "-----------------" in line:
+            p = Paper(index, title, author_list, org_list, year,\
+                conf, abstract, no, stop_words)
+            result.append(p)
+            # reset value
+            index = -1
+            title = ""
+            author_list = ""
+            org_list = ""
+            year = -1
+            conf = ""
+            abstract = ""
+            no = -1
+        else:
+            content = line.strip().split(" ")
+            if len(content) > 1 :
+                if content[0] == "#index" :
+                    index = str(" ".join(content[1:]))
+                if content[0] == "#*" :
+                    title = str(" ".join(content[1:]))
+                if content[0] == "#@" :
+                    author_list = str(" ".join(content[1:]))
+                if content[0] == "#o" :
+                    org_list = str(" ".join(content[1:]))
+                if content[0] == "#t" :
+                    year = str(" ".join(content[1:]))
+                if content[0] == "#c" :
+                    conf = str(" ".join(content[1:]))
+                if content[0] == "#!" :
+                    abstract = str(" ".join(content[1:]))
+                if content[0] == "#n" :
+                    no = int(content[1])
+    f.close()
+    return result
+
+
+
