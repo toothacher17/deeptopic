@@ -30,6 +30,13 @@ def transfer_word_pair(line):
             result_list.append(str(k) + ":" + str(v))
     return " ".join(result_list)
 
+def transfer_wordmapid(line, wordmap):
+    result_list = []
+    for w in line.split(" "):
+        if w != "":
+            result_list.append(str(wordmap[w]))
+    return " ".join(result_list)
+
 
 # load paper data into memory
 def load_data(filename):

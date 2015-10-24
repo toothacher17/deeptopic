@@ -30,21 +30,21 @@ for line in f:
 
         for a in p.author_list:
             if a not in author_dict:
-                author_dict[a] = len(author_dict) + 1
+                author_dict[a] = len(author_dict)
 
         for o in p.org_list:
             if o not in org_dict:
-                org_dict[o] = len(org_dict) + 1
+                org_dict[o] = len(org_dict)
 
         if p.conf not in conf_dict:
-            conf_dict[p.conf] = len(conf_dict) + 1
+            conf_dict[p.conf] = len(conf_dict)
 
         if p.year not in year_dict:
-            year_dict[p.year] = len(year_dict) + 1
+            year_dict[p.year] = len(year_dict)
 
         for w in p.abstract.split(" "):
             if w not in word_dict:
-                word_dict[w] = len(word_dict) + 1
+                word_dict[w] = len(word_dict)
 
         # reset value
         index = -1
@@ -86,9 +86,11 @@ write_index_dict(author_dict, "author_dict", 0)
 write_index_dict(org_dict, "org_dict", len1)
 write_index_dict(conf_dict, "conf_dict", len2)
 write_index_dict(year_dict, "year_dict", len3)
+write_index_dict(word_dict, "word_dict", 0)
 
 meta_feature = open("meta_feature", "w")
-word_feature = open("word_feature", "w")
+word_feature1 = open("word_feature1", "w")
+word_feature2 = open("word_feature2", "w")
 
 # loop for the second time to transfer features
 f2 = open("../data/r1k_file")
@@ -109,7 +111,9 @@ for line in f2:
 
         # write words file
         word_pairs = transfer_word_pair(p.abstract)
-        word_feature.write(word_pairs + "\n")
+        word_feature1.write(word_pairs + "\n")
+        word_mapids = transfer_wordmapid(p.abstract, word_dict)
+        word_feature2.write(word_mapids + "\n")
 
         # reset value
         index = -1
@@ -141,7 +145,8 @@ for line in f2:
                 no = int(content[1])
 
 f2.close()
-word_feature.close()
+word_feature1.close()
+word_feature2.close()
 meta_feature.close()
 
 
