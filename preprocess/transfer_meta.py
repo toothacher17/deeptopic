@@ -44,7 +44,8 @@ for line in f:
 
         for w in p.abstract.split(" "):
             if w not in word_dict:
-                word_dict[w] = len(word_dict)
+                if w != "":
+                    word_dict[w] = len(word_dict)
 
         # reset value
         index = -1
