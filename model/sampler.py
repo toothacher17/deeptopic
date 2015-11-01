@@ -66,13 +66,13 @@ class Sampler(object):
         self.ndsum[doc_id] -= 1
 
         # some param
-        Vbeta = v * self.beta
+        Vbeta = self.V * self.beta
         Kalpha = np.sum(alpha_d)
 
         # sample a new topic
         # calculate the probability density for each topic
         for k in range(self.K):
-            self.p[k] = (self.nw[wordmap_id]+self.beta)/(self.nwsum[k]+Vbeta) * \
+            self.p[k] = (self.nw[wordmap_id][k]+self.beta)/(self.nwsum[k]+Vbeta) * \
                         (self.nd[doc_id][k]+alpha_d[k])/(self.ndsum[doc_id]+Kalpha)
         # calculate the probability accum for each topic
         for k in range(1,self.K):
@@ -83,17 +83,17 @@ class Sampler(object):
                 break
 
         # update new states and return the new sampled topic
-        self.nw[wordmap_id][new_topic] -= 1
-        self.nwsum[new_topic] -= 1
-        self.nd[doc_id][new_topic] -= 1
-        self.ndsum[doc_id] -= 1
+        self.nw[wordmap_id][new_topic] += 1
+        self.nwsum[new_topic] += 1
+        self.nd[doc_id][new_topic] += 1
+        self.ndsum[doc_id] += 1
         return new_topic
 
 
     # assigning new topic to each word in each doc
     # the alpha is get from forward result via NN
     # the data structure of alpha is numpy array
-    def assign(self, alpha, iter_num, save_model_flag):
+    def assigning(self, alpha, iter_num, save_model_flag):
         print("Sampling iteration %d ..." %iter_num)
 
         # assign new topic to each word in each doc
@@ -107,4 +107,19 @@ class Sampler(object):
         print("Finish iteration")
 
 
-
+    # simple save model function, save the top 10 words for each topic
+    def simple_save_model(self, top_word_num, word_dict, filename):
+        write_file = open(filename, 'w')
+        # for each topic, write top num words
+        for topic in range(self.K):
+            write_file.write("Topic " + str(topic) + "top words:\n")
+            top_words = []
+            for word in range(self.V):
+                top_words.append((word, self.nw[word][topic]))
+            # sort to get top k words
+            top_words.sort(key=lambda x:x[1], reverse=True)
+            for i in range(top_word_num):
+                word_key = str(word_dict[top_words[i][0]])
+                word_val = str(top_words[i][1])
+                write_file.write("\t" + word_key + ": " + word_val + "\n")
+        write_file.close()

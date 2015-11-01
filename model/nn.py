@@ -32,8 +32,9 @@ act2 = mx.symbol.Activation(data=fc2,name='act2',act_type="sigmoid")
 #output = mx.symbol.Softmax(data=act2,name='alphann')
 
 # bind the layers with exexcutor
-
-
+arg_names = act2.list_arguments()
+arg_arrays = []
+arg_map = dict(zip(arg_names, arg_arrays))
 ########## EM Framework for updates
 
 
