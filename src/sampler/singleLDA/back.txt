@@ -1,0 +1,7 @@
+Implement the collapsed gibbs sampler based on Manzil Zaheer's code
+
+Basics to remeber:
+
+1. Source file was used to test the sampler
+2. Using the FTree model
+3. Inherent from the model class

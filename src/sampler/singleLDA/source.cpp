@@ -1,5 +1,7 @@
 #include "lda.h"
 
+// This file was used to whether the sampler is working
+
 void show_help()
 {
 	std::cout << "Command line usage:" << std::endl;
@@ -36,17 +38,16 @@ int main(int argc, char ** argv)
     if (!(lda = model::init(argc, argv)))
 	{
 		show_help();
-		system("pause");
 		return 1;
     }
-    
+
     // Train the model
 	if(lda->train())
 	{
 		std::cout << "Error: There exists a Bug in training part!" << std::endl;
 		return 1;
 	}
-    
+ 
 	// Finally test the model	
 	if(lda->test())
 	{
@@ -54,7 +55,6 @@ int main(int argc, char ** argv)
 		return 1;
     }
 
-	system("pause");
     return 0;
 }
 

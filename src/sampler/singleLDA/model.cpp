@@ -133,40 +133,10 @@ model* model::init(int argc, char ** argv)
 	{
 		if (*arg == "--method")
 		{
-			if (*(arg + 1) == "simpleLDA")
-			{
-				lda = new simpleLDA;
-				std::cout << "Running LDA inference using simpleLDA" << std::endl;
-			}
-			else if (*(arg + 1) == "unifLDA")
-			{
-				lda = new unifLDA;
-				std::cout << "Running LDA inference using unifLDA" << std::endl;
-			}
-			else if (*(arg + 1) == "sparseLDA")
-			{
-				lda = new sparseLDA;
-				std::cout << "Running LDA inference using sparseLDA" << std::endl;
-			}
-			else if (*(arg + 1) == "aliasLDA")
-			{
-				lda = new aliasLDA;
-				std::cout << "Running LDA inference using aliasLDA" << std::endl;
-			}
-			else if (*(arg + 1) == "FTreeLDA")
+			if (*(arg + 1) == "FTreeLDA")
 			{
 				lda = new FTreeLDA;
 				std::cout << "Running LDA inference using FTreeLDA" << std::endl;
-			}
-			else if (*(arg + 1) == "forestLDA")
-			{
-				lda = new forestLDA;
-				std::cout << "Running LDA inference using forestLDA" << std::endl;
-			}
-			else if (*(arg + 1) == "lightLDA")
-			{
-				lda = new lightLDA;
-				std::cout << "Running LDA inference using lightLDA" << std::endl;
 			}
 			else
 			{
