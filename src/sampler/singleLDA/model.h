@@ -20,8 +20,9 @@ public:
 
 	/****** interacting functions ******/
 	static model* init(int, char**);// initialize the model randomly
-	int train();					// train LDA using prescribed algorithm on training data
-	int test();						// test LDA according to specified method
+	// the train and test are just used for debug use in new model
+    int train(double ** alpha_mk);	// train LDA using prescribed algorithm on training data
+	int test(double ** alpha_mk);						// test LDA according to specified method
 
 protected:
 	/****** Enums for testing type model status  ******/
@@ -38,14 +39,15 @@ protected:
 
 	std::map<int, std::string> id2word;			// word map [int => string]
 	std::map<std::string, int> word2id;			// word map [string => int]
-    
+
     /****** Model Parameters ******/
 	int M;							// Number of documents
 	int V; 							// Number of words in dictionary
 	int K; 							// Number of topics
 
 	/****** Model Hyper-Parameters ******/
-	double alpha;					// per document Topic proportions dirichlet prior
+	//double alpha;					// per document Topic proportions dirichlet prior
+	//double alpha_mk;				// per document Topic dirichlet prior, varies for different m and k
 	double beta, Vbeta;				// Dirichlet language model
 
 	/****** Model variables ******/
@@ -56,21 +58,22 @@ protected:
 		
 	/****** Temporary variables ******/
 	double * p;
-	int *nd_m;
-	int *rev_mapper;
-      
+	int *nd_m;                      // number of words in doc m for each topic
+	int *rev_mapper;                // key is the topic id, value is the topic pos in a doc
+
 	/****** Initialisation aux ******/
 	int read_data();				// Read training (and testing) data
     int parse_args(std::vector<std::string> arguments);	// parse command line inputs
-	        
+
 	/****** Training aux ******/
 	int n_iters;	 				// Number of Gibbs sampling iterations
 	int n_save;			 			// Number of iters in between saving
 	int n_topWords; 				// Number of top words to be printed per topic
 	int init_train();					// init for training
 	virtual int specific_init() { return 0; }	// if sampling algo need some specific inits
-	virtual int sampling(int m) { return 0; }	// sampling doc m outsourced to children
-    
+	//virtual int sampling(int m) { return 0; }	// sampling doc m outsourced to children
+	virtual int sampling(int m, double ** alpha_mk) { return 0; }	// alpha is a changing parameter 
+
 	/****** Testing aux ******/
 	int test_n_iters;
 	int test_M;
@@ -80,9 +83,10 @@ protected:
 	int * test_n_k;
 	int init_test();				// init for testing
 	int vanilla_sampling(int m);	// vanila sampling doc m for testing
-    
+
 	/****** Functions to update sufficient statistics ******/
-	inline int add_to_topic(int w, int m, int topic, int old_topic)
+    // before sampling, remove the old topic
+    inline int add_to_topic(int w, int m, int topic, int old_topic)
 	{
 		n_wk[w][topic] += 1;
 		if (topic != old_topic && nd_m[topic] == 0)
@@ -99,12 +103,14 @@ protected:
 			n_mks[m][rev_mapper[old_topic]].second = n_mks[m].back().second;
 			rev_mapper[n_mks[m].back().first] = rev_mapper[old_topic];
 			n_mks[m].pop_back();
-			rev_mapper[old_topic] = -1;
+			rev_mapper[old_topic] = -1; // topic remove from this doc m
 		}
 		n_k[topic] += 1;
 
 		return 0;
 	}
+
+    // after sampling, add the new topic
 	inline int remove_from_topic(int word, int doc, int topic)
 	{
 		n_wk[word][topic] -= 1;

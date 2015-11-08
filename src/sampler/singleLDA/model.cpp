@@ -4,7 +4,7 @@
 
 #define COMP_LLH 1
 
-model::model() 
+model::model()
 {
 	testing_type = INVALID;
 	
@@ -15,7 +15,7 @@ model::model()
 	V = 0;
 	K = 100;
 
-	alpha = 50.0 / K;
+	//alpha = 50.0 / K;
 	beta = 0.1;
 
 	z = NULL;
@@ -171,7 +171,9 @@ model* model::init(int argc, char ** argv)
 	return lda;
 }
 
-int model::train()
+
+// model train function, for debug
+int model::train(double ** alpha_mk)
 {
 	if (specific_init())
 		return 1;
@@ -186,13 +188,14 @@ int model::train()
 
 		// for each document
 		for (int m = 0; m < M; ++m)
-			sampling(m);
+			//sampling(m);
+			sampling(m, alpha_mk); // need to input the alpha_mk
 
 		tn = std::chrono::high_resolution_clock::now();
 		time_ellapsed.push_back(std::chrono::duration_cast<std::chrono::milliseconds>(tn - ts).count());
 
 #if COMP_LLH
-		test();
+		test(alpha_mk);
 #endif
 
 		if (n_save > 0)
@@ -213,21 +216,24 @@ int model::train()
 	return 0;
 }
 
-int model::test()
+
+// model test function, for debug use
+int model::test(double ** alpha_mk)
 {
-	if (testing_type == SELF_TEST)
+	if (testing_type == SELF_TEST) // test training data
 	{
 		// just do MAP estimates
 		likelihood.push_back(llhw());
 		std::cout << "Likelihood on training documents: " << likelihood.back() << " at time " << time_ellapsed.back() << std::endl;
 	}
-	else if (testing_type == SEPARATE_TEST)
+	else if (testing_type == SEPARATE_TEST) // test testing data
 	{
 		for (int iter = 1; iter <= test_n_iters; ++iter)
 		{
 			// for each doc
 			for (int m = 0; m < test_M; m++)
-				vanilla_sampling(m);
+				//vanilla_sampling(m);
+				vanilla_sampling(m, alpha_mk); // input the alpha
 		}
 		likelihood.push_back(newllhw());
 		std::cout << "Likelihood on held out documents: " << likelihood.back() << " at time " << time_ellapsed.back() << std::endl;
@@ -389,6 +395,7 @@ int model::parse_args(std::vector<std::string> arguments)
 
 
 	//Check common parameters and accept only if valid
+	// Do not need this alpha
 	if (_alpha >= 0.0)
 	{
 		alpha = _alpha;
@@ -564,7 +571,8 @@ int model::init_test()
 	return 0;
 }
 
-int model::vanilla_sampling(int m)
+// vanilla sampling for test
+int model::vanilla_sampling(int m, double ** alpha_mk)
 {
 	for (int n = 0; n < testdata->docs[m]->length; n++)
 	{
