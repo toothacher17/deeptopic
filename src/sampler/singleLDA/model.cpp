@@ -220,10 +220,11 @@ int model::train(double ** alpha_mk)
 // model test function, for debug use
 int model::test(double ** alpha_mk)
 {
-	if (testing_type == SELF_TEST) // test training data
+	double alpha = alpha_mk[0][0];
+    if (testing_type == SELF_TEST) // test training data
 	{
 		// just do MAP estimates
-		likelihood.push_back(llhw());
+		likelihood.push_back(llhw(alpha));
 		std::cout << "Likelihood on training documents: " << likelihood.back() << " at time " << time_ellapsed.back() << std::endl;
 	}
 	else if (testing_type == SEPARATE_TEST) // test testing data
@@ -235,7 +236,7 @@ int model::test(double ** alpha_mk)
 				//vanilla_sampling(m);
 				vanilla_sampling(m, alpha_mk); // input the alpha
 		}
-		likelihood.push_back(newllhw());
+		likelihood.push_back(newllhw(alpha));
 		std::cout << "Likelihood on held out documents: " << likelihood.back() << " at time " << time_ellapsed.back() << std::endl;
 	}
 	return 0;
@@ -396,15 +397,15 @@ int model::parse_args(std::vector<std::string> arguments)
 
 	//Check common parameters and accept only if valid
 	// Do not need this alpha
-	if (_alpha >= 0.0)
-	{
-		alpha = _alpha;
-	}
-	else
-	{
-		// default value for alpha
-		alpha = 50.0 / K;
-	}
+	//if (_alpha >= 0.0)
+	//{
+	//	alpha = _alpha;
+	//}
+	//else
+	//{
+	//	// default value for alpha
+	//	alpha = 50.0 / K;
+	//}
 
 	//Check specific parameter    
 	if (testing_type == SEPARATE_TEST)
@@ -444,7 +445,7 @@ int model::parse_args(std::vector<std::string> arguments)
 		std::cout << "Testing file = " << tfile << std::endl;
 	std::cout << "model dir = " << mdir << std::endl;
 	std::cout << "n_iters = " << n_iters << std::endl;
-	std::cout << "alpha = " << alpha << std::endl;
+	//std::cout << "alpha = " << alpha << std::endl;
 	std::cout << "beta = " << beta << std::endl;
 	std::cout << "K = " << K << std::endl;
 
@@ -588,7 +589,7 @@ int model::vanilla_sampling(int m, double ** alpha_mk)
 		// do multinomial sampling via cumulative method
 		for (int k = 0; k < K; k++)
 		{
-			psum += (test_n_mk[m][k] + alpha) * (n_wk[w][k] + test_n_wk[w][k] + beta) / (n_k[k] + test_n_k[k] + Vbeta);
+			psum += (test_n_mk[m][k] + alpha_mk[m][k]) * (n_wk[w][k] + test_n_wk[w][k] + beta) / (n_k[k] + test_n_k[k] + Vbeta);
 			p[k] = psum;
 		}
 
@@ -606,7 +607,8 @@ int model::vanilla_sampling(int m, double ** alpha_mk)
 	return 0;
 }
 
-double model::newllhw() const
+// adding a temp alpha for convenience
+double model::newllhw(double alpha) const
 {
 	double sum = 0;
 	int num_tokens = 0;
@@ -629,7 +631,8 @@ double model::newllhw() const
 	return sum / num_tokens;
 }
 
-double model::llhw() const
+// adding a new alpha for convenience
+double model::llhw(double alpha) const
 {
 	double sum = 0;
 	int num_tokens = 0;
@@ -757,7 +760,7 @@ int model::save_model_params(std::string filename) const
 		return 1;
 	}
 
-	fout << "alpha=" << alpha << std::endl;
+	//fout << "alpha=" << alpha << std::endl;
 	fout << "beta=" << beta << std::endl;
 	fout << "num-topics=" << K << std::endl;
 	fout << "num-docs=" << M << std::endl;
@@ -776,12 +779,12 @@ int model::save_model_topWords(std::string filename) const
 		std::cout << "Error: Cannot open file to save: " << filename << std::endl;
 		return 1;
 	}
-   
+
 	int _n_topWords = n_topWords;
     if (_n_topWords > V)	_n_topWords = V;
- 
+
 	std::map<int, std::string>::const_iterator it;
-    
+
     for (int k = 0; k < K; k++)
 	{
 		std::vector<std::pair<int, int> > words_probs(V);
@@ -792,7 +795,7 @@ int model::save_model_topWords(std::string filename) const
 			word_prob.second = n_wk[w][k];
 			words_probs[w] = word_prob;
 		}
-    
+
         // quick sort to sort word-topic probability
 		std::sort(words_probs.begin(), words_probs.end());
 	
@@ -806,10 +809,10 @@ int model::save_model_topWords(std::string filename) const
 			}
 		}
     }
-    
-    fout.close();    
-    
-    return 0;    
+
+    fout.close();
+
+    return 0;
 }
 
 int model::save_model_phi(std::string filename) const

@@ -20,7 +20,7 @@ int FTreeLDA::specific_init()
 }
 
 // modify sampling, we need to input the alpha
-int FTreeLDA::sampling(int m, double alpha_mk)
+int FTreeLDA::sampling(int m, double ** alpha_mk)
 {
 	int kc = 0;
 	for (const auto& k : n_mks[m])

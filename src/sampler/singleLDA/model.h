@@ -72,7 +72,7 @@ protected:
 	int init_train();					// init for training
 	virtual int specific_init() { return 0; }	// if sampling algo need some specific inits
 	//virtual int sampling(int m) { return 0; }	// sampling doc m outsourced to children
-	virtual int sampling(int m, double ** alpha_mk) { return 0; }	// alpha is a changing parameter 
+	virtual int sampling(int m, double ** alpha_mk) { return 0; }	// alpha is a changing parameter
 
 	/****** Testing aux ******/
 	int test_n_iters;
@@ -82,7 +82,7 @@ protected:
 	int ** test_n_mk;
 	int * test_n_k;
 	int init_test();				// init for testing
-	int vanilla_sampling(int m);	// vanila sampling doc m for testing
+	int vanilla_sampling(int m, double ** alpha_mk);	// vanila sampling doc m for testing
 
 	/****** Functions to update sufficient statistics ******/
     // before sampling, remove the old topic
@@ -124,17 +124,17 @@ protected:
 	/****** Performance computations ******/
 	std::vector<double> time_ellapsed; // time ellapsed after each iteration
 	std::vector<double> likelihood; // likelihood after each iteration
-	double newllhw() const;			// per word log-likelihood for new (unseen) data based on the estimated LDA model
-	double llhw() const;			// per word log-likelihood for training data based on the estimated LDA model
+	double newllhw(double alpha) const;			// per word log-likelihood for new (unseen) data based on the estimated LDA model
+	double llhw(double alpha) const;			// per word log-likelihood for training data based on the estimated LDA model
 
 	/****** File and Folder Paths ******/
 	std::string ddir;				// data directory
 	std::string mdir;				// model directory
-	std::string dfile;				// train data file    
-	std::string tfile;				// test data file    
+	std::string dfile;				// train data file
+	std::string tfile;				// test data file
 
 	/****** save LDA model to files ******/
-	int save_model(int iter) const;						// save model: call each of the following:		
+	int save_model(int iter) const;						// save model: call each of the following:
 	int save_model_time(std::string filename) const;	// model_name.time: time at which statistics calculated
 	int save_model_llh(std::string filename) const;		// model_name.llh: Per word likelihood on held out documents
 	int save_model_params(std::string filename) const;	// model_name.params: containing other parameters of the model (alpha, beta, M, V, K)
