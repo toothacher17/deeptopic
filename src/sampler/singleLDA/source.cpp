@@ -1,6 +1,4 @@
-//#include "lda.h"
-
-#include <iostream>
+#include "lda.h"
 
 // This file was used to whether the sampler is working
 
@@ -11,7 +9,7 @@ double** init_alpha(int M, int K) {
     for (int m = 0; m < M; m++) {
         alpha_mk[m] = new double[K];
         for (int k = 0; k < K; k++) {
-            alpha_mk[m][k] = 5.0;
+            alpha_mk[m][k] = 1.0;
         }
     }
     return alpha_mk;
@@ -37,42 +35,36 @@ void free_alpha(double *** alpha_mk_ptr, int M) {
 int main(int argc, char ** argv)
 {
 	
-    // debug first test the alpha_mk matrix
-    double ** alpha_mk;
-    int M = 1000; // training data size
-    int K = 10;   // topic size
-    alpha_mk = init_alpha(M, K);
-    std::cout << M << std::endl;
-    std::cout << K << std::endl;
-    std::cout << alpha_mk[2][3] << std::endl;
-    std::cout << alpha_mk[902][3] << std::endl;
+    int M = 39361; // training data size
+    int K = 50;   // topic size
 
-    free_alpha(&alpha_mk, M);
+    // initialize the alpha matrix
+    double **alpha_mk = init_alpha(M, K);
 
-    /*
     model *lda=NULL;
 
 	// initialize the model
     if (!(lda = model::init(argc, argv)))
 	{
-		show_help();
+		//show_help();
 		return 1;
     }
 
     // Train the model
-	if(lda->train())
+	if(lda->train(alpha_mk))
 	{
 		std::cout << "Error: There exists a Bug in training part!" << std::endl;
 		return 1;
 	}
  
 	// Finally test the model	
-	if(lda->test())
+	if(lda->test(alpha_mk))
 	{
 		std::cout << "Error: There exists a Bug in testing part!" << std::endl;
 		return 1;
     }
-    */
+
+    free_alpha(&alpha_mk, M);
     return 0;
 }
 

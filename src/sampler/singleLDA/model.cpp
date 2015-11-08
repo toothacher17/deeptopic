@@ -696,11 +696,11 @@ int model::save_model(int iter) const
 	std::cout << "others done" << std::endl;
     if (n_topWords > 0)
 	{
-		//if (save_model_twords(mdir + model_name + ".twords")) 
-		//ff{
-		//	return 1;
-		//}
-		//std::cout << "twords done" << std::endl;
+		if (save_model_topWords(mdir + model_name + ".twords")) 
+		{
+			return 1;
+		}
+		std::cout << "twords done" << std::endl;
     }
 	//if (model_status == MODEL_SELF_TEST)
 	//{

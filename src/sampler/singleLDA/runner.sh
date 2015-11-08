@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #DATASETS="nips enron"
-DATASETS="nips"
+DATASETS="enron"
 METHODS="FTreeLDA"
-NUM_ITER="10"
-NUM_TOPICS="10"
+NUM_ITER="200"
+NUM_TOPICS="50"
 
 for DATASET in $DATASETS
 do
