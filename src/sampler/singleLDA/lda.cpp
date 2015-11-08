@@ -1,5 +1,6 @@
 #include "lda.h"
 
+// Data structure using Fenwich Tree
 int FTreeLDA::specific_init()
 {
 	// Construct trees here
@@ -18,7 +19,8 @@ int FTreeLDA::specific_init()
 	return 0;
 }
 
-int FTreeLDA::sampling(int m)
+// modify sampling, we need to input the alpha
+int FTreeLDA::sampling(int m, double alpha_mk)
 {
 	int kc = 0;
 	for (const auto& k : n_mks[m])
@@ -26,6 +28,8 @@ int FTreeLDA::sampling(int m)
 		nd_m[k.first] = k.second;
 		rev_mapper[k.first] = kc++;
 	}
+
+    // n is the pos of a topic in m
 	for (int n = 0; n < trngdata->docs[m]->length; ++n)
 	{
 		int w = trngdata->docs[m]->words[n];
@@ -40,14 +44,20 @@ int FTreeLDA::sampling(int m)
 		//Compute pdw
 		double psum = 0;
 		int i = 0;
-		/* Travese all non-zero document-topic distribution */
+		
+
+        /* Travese all non-zero document-topic distribution */
 		for (const auto& k : n_mks[m])
 		{
-			psum += k.second * (n_wk[w][k.first] + beta) / (n_k[k.first] + Vbeta);
+			// get temp alpha for each doc and topic
+			double temp_alpha = alpha_mk[m][k.first];
+            psum += (k.second + temp_alpha) * (n_wk[w][k.first] + beta) / (n_k[k.first] + Vbeta);
 			p[i++] = psum;
 		}
 
-		double u = utils::unif01() * (psum + alpha*trees[w].w[1]);
+		//double u = utils::unif01() * (psum + alpha*trees[w].w[1]);
+		// change the random scale
+		double u = utils::unif01() * psum;
 
 		if (u < psum)
 		{
@@ -72,5 +82,5 @@ int FTreeLDA::sampling(int m)
 		nd_m[k.first] = 0;
 		rev_mapper[k.first] = -1;
 	}
-	return 0;	
+	return 0;
 }

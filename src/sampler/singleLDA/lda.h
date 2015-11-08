@@ -15,7 +15,7 @@ public:
 
 	// estimate LDA model using F+ Tree
 	int specific_init();
-	int sampling(int m);
+	int sampling(int m, double ** alpha_mk);
 };
 
 #endif
