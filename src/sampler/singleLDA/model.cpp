@@ -689,14 +689,14 @@ int model::save_model(int iter) const
 		return 1;
 	}
 	std::cout << "llh done" << std::endl;
-	if (save_model_params(mdir + model_name + ".params")) 
+	if (save_model_params(mdir + model_name + ".params"))
 	{
 		return 1;
     }
 	std::cout << "others done" << std::endl;
     if (n_topWords > 0)
 	{
-		if (save_model_topWords(mdir + model_name + ".twords")) 
+		if (save_model_topWords(mdir + model_name + ".twords"))
 		{
 			return 1;
 		}
@@ -767,7 +767,7 @@ int model::save_model_params(std::string filename) const
 	fout << "num-words=" << V << std::endl;
 	fout << "num-iters=" << n_iters << std::endl;
 	fout.close();
-    
+
     return 0;
 }
 
@@ -797,13 +797,18 @@ int model::save_model_topWords(std::string filename) const
 		}
 
         // quick sort to sort word-topic probability
-		std::sort(words_probs.begin(), words_probs.end());
+		//std::sort(words_probs.begin(), words_probs.end());
+        // sort the list of a pair based on second term
+		std::sort(words_probs.begin(), words_probs.end(),
+               [](const std::pair<int,int> &left, const std::pair<int,int> &right) {
+                    return left.second > right.second;
+               });
 	
 		fout << "Topic " << k << "th:" << std::endl;
 		for (int i = 0; i < _n_topWords; i++)
 		{
 			it = id2word.find(words_probs[i].first);
-			if (it != id2word.end()) 
+			if (it != id2word.end())
 			{
 				fout << "\t" << it->second << "   " << words_probs[i].second << std::endl;
 			}
