@@ -3,12 +3,13 @@ import numpy as np
 
 from sampler import *
 from utils import *
+from nn_utils import *
 
 ########### model parameters and configurations
 # sampler related args
 K = 20
 beta = 0.1
-iter_num = 20
+iter_num = 200
 top_words = 10
 
 # file related args
@@ -23,6 +24,7 @@ meta_size = 3773
 ## NN configuration with mxnet
 dev = mx.cpu()
 batch_size = 100
+step = 0.01
 
 # input
 meta = mx.symbol.Variable('meta')
@@ -39,10 +41,10 @@ act2 = mx.symbol.Activation(data=fc2,name='act2',act_type="sigmoid")
 
 ## bind the layers with exexcutor
 # the arg includes meta, w1, fc1_bias, w2, fc2_bias
-# record the figure size
 meta_shape = (doc_size, meta_size)
 arg_shape, out_shape, aux_shape = act2.infer_shape(meta=meta_shape)
-print(dict(zip(act2.list_arguments(), arg_shape)))
+arg_names = act2.list_arguments()
+print(dict(zip(arg_names, arg_shape)))
 print(out_shape)
 
 # add meta data as input
@@ -82,25 +84,40 @@ grads['fc2_bias'] = b2_grad
 reqs = ["write" for name in grads]
 texec = act2.bind(ctx=dev, args=args, args_grad=grads, grad_req=reqs)
 
+
+########## Init sampler
+word_feature = load_word_data(word_filename)
+# V is the word size
+V = get_word_size(word_feature)
+sampler = Sampler(word_feature, K, V, beta)
+sampler.init_params()
+
 ########## EM Framework for updates
-# texec forward to get output
-texec.forward()
-temp = texec.outputs[0].asnumpy()
-print(len(temp))
-print(len(temp[0]))
-print(temp[0][2])
+# log likelihood gradient, composed by digamma function
+llh_grad = mx.nd.empty((1000,20))
+llh_grad[:] = np.random.uniform(-1.0, 1.0, (1000,20))
 
-# build a layer with g and backward
-gradient_input = mx.nd.empty((1000,20))
-gradient_input[:] = np.random.uniform(-1.0, 1.0, (1000,20))
-texec.backward(out_grads=gradient_input)
+# EM framework, update for 20 iters
+for it in range(iter_num):
+    #### E step
+    # texec forward to get output, then sampling
+    texec.forward()
+    alpha = texec.outputs[0].asnumpy()
+    sampler.assigning(alpha, it, 0)
 
-temp = w1_grad.asnumpy()
-print(len(temp))
-print(len(temp[0]))
-print(temp[0][2])
+    #### M step
+    # first get outer gradients
+    llh_temp = llh_grad.asnumpy()
+    llh_temp = cal_llh_grad(sampler, alpha, llh_temp)
+    llh_grad = mx.nd.array(llh_temp)
+    # then update all args
+    texec.backward(out_grads=llh_grad)
+    for name in arg_names:
+        if name != "meta":
+            SGD(args[name], grads[name], step)
 
-
+word_dict = load_dict("../preprocess/word_dict")
+sampler.simple_save_model(top_words, word_dict, "test")
 
 
 

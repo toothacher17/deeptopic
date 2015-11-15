@@ -41,3 +41,12 @@ def load_dict(filename):
     f.close()
     return result
 
+# get word set size, input is a spare matrix
+def get_word_size(word_feature):
+    word_set =  set()
+    for line in word_feature:
+        for index in line:
+            word_set.add(index)
+    return len(word_set)
+
+

@@ -30,6 +30,7 @@ for m in range(M):
         temp.append(5)
     alpha.append(temp)
 
+
 # set sampler
 sampler = Sampler(word_feature, K, V, beta)
 sampler.init_params()
@@ -41,4 +42,3 @@ for iter_num in range(100):
     sampler.assigning(alpha, iter_num, 0)
 
 sampler.simple_save_model(top_num, word_dict, "10_iter")
-
