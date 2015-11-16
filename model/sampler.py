@@ -170,6 +170,6 @@ class Sampler(object):
         write_file = open(filename, 'w')
         for i in range(len(self.llhw)):
             write_file.write("Iter " + str(i) + " LLHW " + str(self.llhw[i]) \
-                           + " Time " + str(self.time) + "\n")
+                           + " Time " + str(self.time[i]) + "\n")
         write_file.close()
 

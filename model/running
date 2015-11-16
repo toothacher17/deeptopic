@@ -1,402 +1,802 @@
-{'fc2_bias': (20,), 'fc1_bias': (40,), 'w1': (40, 3773), 'w2': (20, 40), 'meta': (1000, 3773)}
+{'w2': (20, 40), 'fc2_bias': (20,), 'meta': (1000, 3773), 'fc1_bias': (40,), 'w1': (40, 3773)}
 [(1000, 20)]
 Sampling iteration 0 ...
-Finish iteration
+Finish iteration, using time 8.806962013244629
+the llhw of this iteration is -7.399146127170992
+----------------------------------
 Sampling iteration 1 ...
-Finish iteration
+Finish iteration, using time 8.79870891571045
+the llhw of this iteration is -7.472759695429035
+----------------------------------
 Sampling iteration 2 ...
-Finish iteration
+Finish iteration, using time 8.688828945159912
+the llhw of this iteration is -7.568785344604567
+----------------------------------
 Sampling iteration 3 ...
-Finish iteration
+Finish iteration, using time 8.60572600364685
+the llhw of this iteration is -7.664764756304781
+----------------------------------
 Sampling iteration 4 ...
-Finish iteration
+Finish iteration, using time 8.599493026733398
+the llhw of this iteration is -7.773143075883677
+----------------------------------
 Sampling iteration 5 ...
-Finish iteration
+Finish iteration, using time 8.577018976211548
+the llhw of this iteration is -7.85789999125594
+----------------------------------
 Sampling iteration 6 ...
-Finish iteration
+Finish iteration, using time 8.576113939285278
+the llhw of this iteration is -7.881289530509615
+----------------------------------
 Sampling iteration 7 ...
-Finish iteration
+Finish iteration, using time 8.620796918869019
+the llhw of this iteration is -7.896047253311671
+----------------------------------
 Sampling iteration 8 ...
-Finish iteration
+Finish iteration, using time 8.59820294380188
+the llhw of this iteration is -7.9264656387170636
+----------------------------------
 Sampling iteration 9 ...
-Finish iteration
+Finish iteration, using time 8.54740285873413
+the llhw of this iteration is -7.961784227344757
+----------------------------------
 Sampling iteration 10 ...
-Finish iteration
+Finish iteration, using time 8.59880805015564
+the llhw of this iteration is -7.962009837732178
+----------------------------------
 Sampling iteration 11 ...
-Finish iteration
+Finish iteration, using time 8.571969032287598
+the llhw of this iteration is -7.996035697590756
+----------------------------------
 Sampling iteration 12 ...
-Finish iteration
+Finish iteration, using time 8.548849105834961
+the llhw of this iteration is -7.9992416861704125
+----------------------------------
 Sampling iteration 13 ...
-Finish iteration
+Finish iteration, using time 8.55470609664917
+the llhw of this iteration is -7.966175677042312
+----------------------------------
 Sampling iteration 14 ...
-Finish iteration
+Finish iteration, using time 8.560178995132446
+the llhw of this iteration is -7.967912489729229
+----------------------------------
 Sampling iteration 15 ...
-Finish iteration
+Finish iteration, using time 8.673938989639282
+the llhw of this iteration is -7.957384948586767
+----------------------------------
 Sampling iteration 16 ...
-Finish iteration
+Finish iteration, using time 9.949321031570435
+the llhw of this iteration is -7.976299293997084
+----------------------------------
 Sampling iteration 17 ...
-Finish iteration
+Finish iteration, using time 9.508622884750366
+the llhw of this iteration is -7.935778485893062
+----------------------------------
 Sampling iteration 18 ...
-Finish iteration
+Finish iteration, using time 8.71232795715332
+the llhw of this iteration is -7.947924142997298
+----------------------------------
 Sampling iteration 19 ...
-Finish iteration
+Finish iteration, using time 9.237466096878052
+the llhw of this iteration is -7.921578030232202
+----------------------------------
 Sampling iteration 20 ...
-Finish iteration
+Finish iteration, using time 8.664990186691284
+the llhw of this iteration is -7.944328575779276
+----------------------------------
 Sampling iteration 21 ...
-Finish iteration
+Finish iteration, using time 8.604936838150024
+the llhw of this iteration is -7.933230807819393
+----------------------------------
 Sampling iteration 22 ...
-Finish iteration
+Finish iteration, using time 8.714128971099854
+the llhw of this iteration is -7.920838245631976
+----------------------------------
 Sampling iteration 23 ...
-Finish iteration
+Finish iteration, using time 8.582533836364746
+the llhw of this iteration is -7.888725479918715
+----------------------------------
 Sampling iteration 24 ...
-Finish iteration
+Finish iteration, using time 8.60296082496643
+the llhw of this iteration is -7.876409576611832
+----------------------------------
 Sampling iteration 25 ...
-Finish iteration
+Finish iteration, using time 8.601016998291016
+the llhw of this iteration is -7.876433549802092
+----------------------------------
 Sampling iteration 26 ...
-Finish iteration
+Finish iteration, using time 8.561141014099121
+the llhw of this iteration is -7.889878177824467
+----------------------------------
 Sampling iteration 27 ...
-Finish iteration
+Finish iteration, using time 8.562412977218628
+the llhw of this iteration is -7.872259876813382
+----------------------------------
 Sampling iteration 28 ...
-Finish iteration
+Finish iteration, using time 8.548585891723633
+the llhw of this iteration is -7.8830817968988605
+----------------------------------
 Sampling iteration 29 ...
-Finish iteration
+Finish iteration, using time 8.588353872299194
+the llhw of this iteration is -7.874114016866345
+----------------------------------
 Sampling iteration 30 ...
-Finish iteration
+Finish iteration, using time 8.584604978561401
+the llhw of this iteration is -7.883990329160682
+----------------------------------
 Sampling iteration 31 ...
-Finish iteration
+Finish iteration, using time 8.598623037338257
+the llhw of this iteration is -7.861734929003737
+----------------------------------
 Sampling iteration 32 ...
-Finish iteration
+Finish iteration, using time 8.59654188156128
+the llhw of this iteration is -7.866039038173097
+----------------------------------
 Sampling iteration 33 ...
-Finish iteration
+Finish iteration, using time 8.603279113769531
+the llhw of this iteration is -7.858049366141363
+----------------------------------
 Sampling iteration 34 ...
-Finish iteration
+Finish iteration, using time 8.639844179153442
+the llhw of this iteration is -7.861162129398265
+----------------------------------
 Sampling iteration 35 ...
-Finish iteration
+Finish iteration, using time 9.217797040939331
+the llhw of this iteration is -7.866601123688323
+----------------------------------
 Sampling iteration 36 ...
-Finish iteration
+Finish iteration, using time 9.025779008865356
+the llhw of this iteration is -7.860737679639466
+----------------------------------
 Sampling iteration 37 ...
-Finish iteration
+Finish iteration, using time 9.772150993347168
+the llhw of this iteration is -7.858542099743176
+----------------------------------
 Sampling iteration 38 ...
-Finish iteration
+Finish iteration, using time 9.059569120407104
+the llhw of this iteration is -7.845979734397328
+----------------------------------
 Sampling iteration 39 ...
-Finish iteration
+Finish iteration, using time 9.42745590209961
+the llhw of this iteration is -7.856633220956219
+----------------------------------
 Sampling iteration 40 ...
-Finish iteration
+Finish iteration, using time 9.886828899383545
+the llhw of this iteration is -7.8459988654245585
+----------------------------------
 Sampling iteration 41 ...
-Finish iteration
+Finish iteration, using time 8.8441641330719
+the llhw of this iteration is -7.849197466555913
+----------------------------------
 Sampling iteration 42 ...
-Finish iteration
+Finish iteration, using time 8.60510516166687
+the llhw of this iteration is -7.840113254198765
+----------------------------------
 Sampling iteration 43 ...
-Finish iteration
+Finish iteration, using time 9.111325025558472
+the llhw of this iteration is -7.846529009678223
+----------------------------------
 Sampling iteration 44 ...
-Finish iteration
+Finish iteration, using time 8.816174030303955
+the llhw of this iteration is -7.8548353467853
+----------------------------------
 Sampling iteration 45 ...
-Finish iteration
+Finish iteration, using time 9.295224905014038
+the llhw of this iteration is -7.848136398950248
+----------------------------------
 Sampling iteration 46 ...
-Finish iteration
+Finish iteration, using time 9.005342960357666
+the llhw of this iteration is -7.885375378123834
+----------------------------------
 Sampling iteration 47 ...
-Finish iteration
+Finish iteration, using time 9.187185049057007
+the llhw of this iteration is -7.862611777131492
+----------------------------------
 Sampling iteration 48 ...
-Finish iteration
+Finish iteration, using time 10.587347984313965
+the llhw of this iteration is -7.88293293050633
+----------------------------------
 Sampling iteration 49 ...
-Finish iteration
+Finish iteration, using time 9.042176961898804
+the llhw of this iteration is -7.86395903065338
+----------------------------------
 Sampling iteration 50 ...
-Finish iteration
+Finish iteration, using time 8.814263105392456
+the llhw of this iteration is -7.8430969774091865
+----------------------------------
 Sampling iteration 51 ...
-Finish iteration
+Finish iteration, using time 8.892534017562866
+the llhw of this iteration is -7.84535660398247
+----------------------------------
 Sampling iteration 52 ...
-Finish iteration
+Finish iteration, using time 9.17773699760437
+the llhw of this iteration is -7.848181956142361
+----------------------------------
 Sampling iteration 53 ...
-Finish iteration
+Finish iteration, using time 8.837629079818726
+the llhw of this iteration is -7.835989113431581
+----------------------------------
 Sampling iteration 54 ...
-Finish iteration
+Finish iteration, using time 9.411400079727173
+the llhw of this iteration is -7.837606418348118
+----------------------------------
 Sampling iteration 55 ...
-Finish iteration
+Finish iteration, using time 9.084646940231323
+the llhw of this iteration is -7.826153338603344
+----------------------------------
 Sampling iteration 56 ...
-Finish iteration
+Finish iteration, using time 9.024960994720459
+the llhw of this iteration is -7.825480254390081
+----------------------------------
 Sampling iteration 57 ...
-Finish iteration
+Finish iteration, using time 9.015893936157227
+the llhw of this iteration is -7.830784728872326
+----------------------------------
 Sampling iteration 58 ...
-Finish iteration
+Finish iteration, using time 8.78905200958252
+the llhw of this iteration is -7.820347134559429
+----------------------------------
 Sampling iteration 59 ...
-Finish iteration
+Finish iteration, using time 8.71550703048706
+the llhw of this iteration is -7.8407427022272
+----------------------------------
 Sampling iteration 60 ...
-Finish iteration
+Finish iteration, using time 8.664407014846802
+the llhw of this iteration is -7.801296195794154
+----------------------------------
 Sampling iteration 61 ...
-Finish iteration
+Finish iteration, using time 8.709961891174316
+the llhw of this iteration is -7.821613424515837
+----------------------------------
 Sampling iteration 62 ...
-Finish iteration
+Finish iteration, using time 9.446687936782837
+the llhw of this iteration is -7.827470084886425
+----------------------------------
 Sampling iteration 63 ...
-Finish iteration
+Finish iteration, using time 9.219662189483643
+the llhw of this iteration is -7.8365843757305695
+----------------------------------
 Sampling iteration 64 ...
-Finish iteration
+Finish iteration, using time 8.76659107208252
+the llhw of this iteration is -7.841938572611265
+----------------------------------
 Sampling iteration 65 ...
-Finish iteration
+Finish iteration, using time 9.09140396118164
+the llhw of this iteration is -7.844063105761149
+----------------------------------
 Sampling iteration 66 ...
-Finish iteration
+Finish iteration, using time 9.746786117553711
+the llhw of this iteration is -7.837049093616049
+----------------------------------
 Sampling iteration 67 ...
-Finish iteration
+Finish iteration, using time 9.803980112075806
+the llhw of this iteration is -7.840742099205074
+----------------------------------
 Sampling iteration 68 ...
-Finish iteration
+Finish iteration, using time 9.059669971466064
+the llhw of this iteration is -7.821682935895524
+----------------------------------
 Sampling iteration 69 ...
-Finish iteration
+Finish iteration, using time 9.194890975952148
+the llhw of this iteration is -7.824214361919052
+----------------------------------
 Sampling iteration 70 ...
-Finish iteration
+Finish iteration, using time 8.872672080993652
+the llhw of this iteration is -7.8466717064000875
+----------------------------------
 Sampling iteration 71 ...
-Finish iteration
+Finish iteration, using time 8.942433834075928
+the llhw of this iteration is -7.862754550944065
+----------------------------------
 Sampling iteration 72 ...
-Finish iteration
+Finish iteration, using time 8.949429035186768
+the llhw of this iteration is -7.882583187527232
+----------------------------------
 Sampling iteration 73 ...
-Finish iteration
+Finish iteration, using time 9.014688968658447
+the llhw of this iteration is -7.865574578115257
+----------------------------------
 Sampling iteration 74 ...
-Finish iteration
+Finish iteration, using time 9.195496082305908
+the llhw of this iteration is -7.866553428943465
+----------------------------------
 Sampling iteration 75 ...
-Finish iteration
+Finish iteration, using time 9.216797113418579
+the llhw of this iteration is -7.854934388778629
+----------------------------------
 Sampling iteration 76 ...
-Finish iteration
+Finish iteration, using time 9.29773211479187
+the llhw of this iteration is -7.844373831169253
+----------------------------------
 Sampling iteration 77 ...
-Finish iteration
+Finish iteration, using time 9.583171129226685
+the llhw of this iteration is -7.814628342375997
+----------------------------------
 Sampling iteration 78 ...
-Finish iteration
+Finish iteration, using time 8.89480996131897
+the llhw of this iteration is -7.841951836835233
+----------------------------------
 Sampling iteration 79 ...
-Finish iteration
+Finish iteration, using time 8.864678144454956
+the llhw of this iteration is -7.841035581146175
+----------------------------------
 Sampling iteration 80 ...
-Finish iteration
+Finish iteration, using time 8.896476030349731
+the llhw of this iteration is -7.825674319109307
+----------------------------------
 Sampling iteration 81 ...
-Finish iteration
+Finish iteration, using time 8.924018859863281
+the llhw of this iteration is -7.818425090605106
+----------------------------------
 Sampling iteration 82 ...
-Finish iteration
+Finish iteration, using time 9.346415996551514
+the llhw of this iteration is -7.810589410530943
+----------------------------------
 Sampling iteration 83 ...
-Finish iteration
+Finish iteration, using time 8.81317400932312
+the llhw of this iteration is -7.806218547574725
+----------------------------------
 Sampling iteration 84 ...
-Finish iteration
+Finish iteration, using time 9.674922943115234
+the llhw of this iteration is -7.830813913848675
+----------------------------------
 Sampling iteration 85 ...
-Finish iteration
+Finish iteration, using time 9.005346059799194
+the llhw of this iteration is -7.844995247929881
+----------------------------------
 Sampling iteration 86 ...
-Finish iteration
+Finish iteration, using time 9.25536298751831
+the llhw of this iteration is -7.868399797433736
+----------------------------------
 Sampling iteration 87 ...
-Finish iteration
+Finish iteration, using time 9.362458944320679
+the llhw of this iteration is -7.85820554142893
+----------------------------------
 Sampling iteration 88 ...
-Finish iteration
+Finish iteration, using time 8.903666019439697
+the llhw of this iteration is -7.8479647127011125
+----------------------------------
 Sampling iteration 89 ...
-Finish iteration
+Finish iteration, using time 8.67460298538208
+the llhw of this iteration is -7.861083232637373
+----------------------------------
 Sampling iteration 90 ...
-Finish iteration
+Finish iteration, using time 8.677917957305908
+the llhw of this iteration is -7.84041333271139
+----------------------------------
 Sampling iteration 91 ...
-Finish iteration
+Finish iteration, using time 8.771349906921387
+the llhw of this iteration is -7.822093741974541
+----------------------------------
 Sampling iteration 92 ...
-Finish iteration
+Finish iteration, using time 8.738634824752808
+the llhw of this iteration is -7.820396684570578
+----------------------------------
 Sampling iteration 93 ...
-Finish iteration
+Finish iteration, using time 8.777399063110352
+the llhw of this iteration is -7.834618927824715
+----------------------------------
 Sampling iteration 94 ...
-Finish iteration
+Finish iteration, using time 8.776796102523804
+the llhw of this iteration is -7.811382617574969
+----------------------------------
 Sampling iteration 95 ...
-Finish iteration
+Finish iteration, using time 8.796212911605835
+the llhw of this iteration is -7.8056406977187045
+----------------------------------
 Sampling iteration 96 ...
-Finish iteration
+Finish iteration, using time 8.784561157226562
+the llhw of this iteration is -7.824979329828152
+----------------------------------
 Sampling iteration 97 ...
-Finish iteration
+Finish iteration, using time 8.787875890731812
+the llhw of this iteration is -7.837103393279183
+----------------------------------
 Sampling iteration 98 ...
-Finish iteration
+Finish iteration, using time 8.833451986312866
+the llhw of this iteration is -7.871736399885331
+----------------------------------
 Sampling iteration 99 ...
-Finish iteration
+Finish iteration, using time 8.825720071792603
+the llhw of this iteration is -7.861047640686905
+----------------------------------
 Sampling iteration 100 ...
-Finish iteration
+Finish iteration, using time 8.778062105178833
+the llhw of this iteration is -7.844968020367781
+----------------------------------
 Sampling iteration 101 ...
-Finish iteration
+Finish iteration, using time 9.422898054122925
+the llhw of this iteration is -7.828428390359087
+----------------------------------
 Sampling iteration 102 ...
-Finish iteration
+Finish iteration, using time 9.063002109527588
+the llhw of this iteration is -7.8144752730087825
+----------------------------------
 Sampling iteration 103 ...
-Finish iteration
+Finish iteration, using time 8.968322038650513
+the llhw of this iteration is -7.8161456549435995
+----------------------------------
 Sampling iteration 104 ...
-Finish iteration
+Finish iteration, using time 8.734007120132446
+the llhw of this iteration is -7.817386762597284
+----------------------------------
 Sampling iteration 105 ...
-Finish iteration
+Finish iteration, using time 9.023226976394653
+the llhw of this iteration is -7.829438265738772
+----------------------------------
 Sampling iteration 106 ...
-Finish iteration
+Finish iteration, using time 9.459429025650024
+the llhw of this iteration is -7.842486873456218
+----------------------------------
 Sampling iteration 107 ...
-Finish iteration
+Finish iteration, using time 9.091479063034058
+the llhw of this iteration is -7.823314888326669
+----------------------------------
 Sampling iteration 108 ...
-Finish iteration
+Finish iteration, using time 8.988497018814087
+the llhw of this iteration is -7.820112929835185
+----------------------------------
 Sampling iteration 109 ...
-Finish iteration
+Finish iteration, using time 9.382201910018921
+the llhw of this iteration is -7.831246390275263
+----------------------------------
 Sampling iteration 110 ...
-Finish iteration
+Finish iteration, using time 9.183977127075195
+the llhw of this iteration is -7.834667484282593
+----------------------------------
 Sampling iteration 111 ...
-Finish iteration
+Finish iteration, using time 9.241979122161865
+the llhw of this iteration is -7.813323820077144
+----------------------------------
 Sampling iteration 112 ...
-Finish iteration
+Finish iteration, using time 9.495476961135864
+the llhw of this iteration is -7.829049389960407
+----------------------------------
 Sampling iteration 113 ...
-Finish iteration
+Finish iteration, using time 9.324230909347534
+the llhw of this iteration is -7.8161396765592155
+----------------------------------
 Sampling iteration 114 ...
-Finish iteration
+Finish iteration, using time 8.926223993301392
+the llhw of this iteration is -7.808495966358948
+----------------------------------
 Sampling iteration 115 ...
-Finish iteration
+Finish iteration, using time 8.887969970703125
+the llhw of this iteration is -7.8178671807383635
+----------------------------------
 Sampling iteration 116 ...
-Finish iteration
+Finish iteration, using time 8.75973892211914
+the llhw of this iteration is -7.811351157935487
+----------------------------------
 Sampling iteration 117 ...
-Finish iteration
+Finish iteration, using time 8.783746004104614
+the llhw of this iteration is -7.823110648143583
+----------------------------------
 Sampling iteration 118 ...
-Finish iteration
+Finish iteration, using time 9.535104990005493
+the llhw of this iteration is -7.833598915916282
+----------------------------------
 Sampling iteration 119 ...
-Finish iteration
+Finish iteration, using time 8.854566812515259
+the llhw of this iteration is -7.8239616323479755
+----------------------------------
 Sampling iteration 120 ...
-Finish iteration
+Finish iteration, using time 8.826224088668823
+the llhw of this iteration is -7.827544123192363
+----------------------------------
 Sampling iteration 121 ...
-Finish iteration
+Finish iteration, using time 9.078150033950806
+the llhw of this iteration is -7.82250007519419
+----------------------------------
 Sampling iteration 122 ...
-Finish iteration
+Finish iteration, using time 9.569162130355835
+the llhw of this iteration is -7.829369866698248
+----------------------------------
 Sampling iteration 123 ...
-Finish iteration
+Finish iteration, using time 9.473672866821289
+the llhw of this iteration is -7.8331222214787175
+----------------------------------
 Sampling iteration 124 ...
-Finish iteration
+Finish iteration, using time 9.171163082122803
+the llhw of this iteration is -7.831287527980682
+----------------------------------
 Sampling iteration 125 ...
-Finish iteration
+Finish iteration, using time 9.29768705368042
+the llhw of this iteration is -7.827234327847891
+----------------------------------
 Sampling iteration 126 ...
-Finish iteration
+Finish iteration, using time 9.457139015197754
+the llhw of this iteration is -7.845667378498893
+----------------------------------
 Sampling iteration 127 ...
-Finish iteration
+Finish iteration, using time 9.253748893737793
+the llhw of this iteration is -7.846193334118385
+----------------------------------
 Sampling iteration 128 ...
-Finish iteration
+Finish iteration, using time 9.282663822174072
+the llhw of this iteration is -7.83991561470226
+----------------------------------
 Sampling iteration 129 ...
-Finish iteration
+Finish iteration, using time 8.853331804275513
+the llhw of this iteration is -7.841866104307005
+----------------------------------
 Sampling iteration 130 ...
-Finish iteration
+Finish iteration, using time 9.011611938476562
+the llhw of this iteration is -7.867281995611332
+----------------------------------
 Sampling iteration 131 ...
-Finish iteration
+Finish iteration, using time 8.760399103164673
+the llhw of this iteration is -7.85600807151525
+----------------------------------
 Sampling iteration 132 ...
-Finish iteration
+Finish iteration, using time 9.105159997940063
+the llhw of this iteration is -7.837165984777044
+----------------------------------
 Sampling iteration 133 ...
-Finish iteration
+Finish iteration, using time 9.380054950714111
+the llhw of this iteration is -7.861037841541671
+----------------------------------
 Sampling iteration 134 ...
-Finish iteration
+Finish iteration, using time 8.93909215927124
+the llhw of this iteration is -7.866017397150633
+----------------------------------
 Sampling iteration 135 ...
-Finish iteration
+Finish iteration, using time 8.660566091537476
+the llhw of this iteration is -7.843291960698265
+----------------------------------
 Sampling iteration 136 ...
-Finish iteration
+Finish iteration, using time 9.601317882537842
+the llhw of this iteration is -7.813687446994906
+----------------------------------
 Sampling iteration 137 ...
-Finish iteration
+Finish iteration, using time 8.969810962677002
+the llhw of this iteration is -7.841600697125502
+----------------------------------
 Sampling iteration 138 ...
-Finish iteration
+Finish iteration, using time 8.688653945922852
+the llhw of this iteration is -7.8135853491747485
+----------------------------------
 Sampling iteration 139 ...
-Finish iteration
+Finish iteration, using time 9.942453145980835
+the llhw of this iteration is -7.837520970400832
+----------------------------------
 Sampling iteration 140 ...
-Finish iteration
+Finish iteration, using time 9.275720119476318
+the llhw of this iteration is -7.827573314564533
+----------------------------------
 Sampling iteration 141 ...
-Finish iteration
+Finish iteration, using time 9.355772972106934
+the llhw of this iteration is -7.829725372166647
+----------------------------------
 Sampling iteration 142 ...
-Finish iteration
+Finish iteration, using time 8.79941201210022
+the llhw of this iteration is -7.847956885850618
+----------------------------------
 Sampling iteration 143 ...
-Finish iteration
+Finish iteration, using time 8.903525829315186
+the llhw of this iteration is -7.823541596592502
+----------------------------------
 Sampling iteration 144 ...
-Finish iteration
+Finish iteration, using time 9.23304009437561
+the llhw of this iteration is -7.830932538553959
+----------------------------------
 Sampling iteration 145 ...
-Finish iteration
+Finish iteration, using time 9.408125877380371
+the llhw of this iteration is -7.837973025957288
+----------------------------------
 Sampling iteration 146 ...
-Finish iteration
+Finish iteration, using time 8.795284032821655
+the llhw of this iteration is -7.823752460230097
+----------------------------------
 Sampling iteration 147 ...
-Finish iteration
+Finish iteration, using time 8.844194889068604
+the llhw of this iteration is -7.8175456899874325
+----------------------------------
 Sampling iteration 148 ...
-Finish iteration
+Finish iteration, using time 8.849514961242676
+the llhw of this iteration is -7.841638682112872
+----------------------------------
 Sampling iteration 149 ...
-Finish iteration
+Finish iteration, using time 8.888362884521484
+the llhw of this iteration is -7.832052255110396
+----------------------------------
 Sampling iteration 150 ...
-Finish iteration
+Finish iteration, using time 8.727250099182129
+the llhw of this iteration is -7.843294671603482
+----------------------------------
 Sampling iteration 151 ...
-Finish iteration
+Finish iteration, using time 9.255543947219849
+the llhw of this iteration is -7.861651319887109
+----------------------------------
 Sampling iteration 152 ...
-Finish iteration
+Finish iteration, using time 8.864813089370728
+the llhw of this iteration is -7.834802750386277
+----------------------------------
 Sampling iteration 153 ...
-Finish iteration
+Finish iteration, using time 8.939685821533203
+the llhw of this iteration is -7.822978877307802
+----------------------------------
 Sampling iteration 154 ...
-Finish iteration
+Finish iteration, using time 8.756284952163696
+the llhw of this iteration is -7.822537248136945
+----------------------------------
 Sampling iteration 155 ...
-Finish iteration
+Finish iteration, using time 8.742179870605469
+the llhw of this iteration is -7.811895638176321
+----------------------------------
 Sampling iteration 156 ...
-Finish iteration
+Finish iteration, using time 9.212471961975098
+the llhw of this iteration is -7.836139665987305
+----------------------------------
 Sampling iteration 157 ...
-Finish iteration
+Finish iteration, using time 9.425065040588379
+the llhw of this iteration is -7.830510407283119
+----------------------------------
 Sampling iteration 158 ...
-Finish iteration
+Finish iteration, using time 9.863610982894897
+the llhw of this iteration is -7.849212352604856
+----------------------------------
 Sampling iteration 159 ...
-Finish iteration
+Finish iteration, using time 9.49298906326294
+the llhw of this iteration is -7.820420008561818
+----------------------------------
 Sampling iteration 160 ...
-Finish iteration
+Finish iteration, using time 8.823567867279053
+the llhw of this iteration is -7.824024833253943
+----------------------------------
 Sampling iteration 161 ...
-Finish iteration
+Finish iteration, using time 8.750830888748169
+the llhw of this iteration is -7.803278969474457
+----------------------------------
 Sampling iteration 162 ...
-Finish iteration
+Finish iteration, using time 9.299125909805298
+the llhw of this iteration is -7.808369669836643
+----------------------------------
 Sampling iteration 163 ...
-Finish iteration
+Finish iteration, using time 9.480568885803223
+the llhw of this iteration is -7.80876010616547
+----------------------------------
 Sampling iteration 164 ...
-Finish iteration
+Finish iteration, using time 8.729022026062012
+the llhw of this iteration is -7.797116634650601
+----------------------------------
 Sampling iteration 165 ...
-Finish iteration
+Finish iteration, using time 9.316261053085327
+the llhw of this iteration is -7.826784821901102
+----------------------------------
 Sampling iteration 166 ...
-Finish iteration
+Finish iteration, using time 8.995596885681152
+the llhw of this iteration is -7.829469010621804
+----------------------------------
 Sampling iteration 167 ...
-Finish iteration
+Finish iteration, using time 8.912297010421753
+the llhw of this iteration is -7.832722607895678
+----------------------------------
 Sampling iteration 168 ...
-Finish iteration
+Finish iteration, using time 8.871543884277344
+the llhw of this iteration is -7.828110324297822
+----------------------------------
 Sampling iteration 169 ...
-Finish iteration
+Finish iteration, using time 8.686290979385376
+the llhw of this iteration is -7.830368627054001
+----------------------------------
 Sampling iteration 170 ...
-Finish iteration
+Finish iteration, using time 8.982651948928833
+the llhw of this iteration is -7.8423735269152735
+----------------------------------
 Sampling iteration 171 ...
-Finish iteration
+Finish iteration, using time 8.677905082702637
+the llhw of this iteration is -7.823651363234742
+----------------------------------
 Sampling iteration 172 ...
-Finish iteration
+Finish iteration, using time 9.373381853103638
+the llhw of this iteration is -7.834883153132654
+----------------------------------
 Sampling iteration 173 ...
-Finish iteration
+Finish iteration, using time 9.263175964355469
+the llhw of this iteration is -7.829823838843728
+----------------------------------
 Sampling iteration 174 ...
-Finish iteration
+Finish iteration, using time 8.748353004455566
+the llhw of this iteration is -7.8342376943709535
+----------------------------------
 Sampling iteration 175 ...
-Finish iteration
+Finish iteration, using time 8.960466146469116
+the llhw of this iteration is -7.815541157900257
+----------------------------------
 Sampling iteration 176 ...
-Finish iteration
+Finish iteration, using time 8.972649097442627
+the llhw of this iteration is -7.822862223720131
+----------------------------------
 Sampling iteration 177 ...
-Finish iteration
+Finish iteration, using time 9.005689859390259
+the llhw of this iteration is -7.816244668707479
+----------------------------------
 Sampling iteration 178 ...
-Finish iteration
+Finish iteration, using time 9.119417905807495
+the llhw of this iteration is -7.829992937689484
+----------------------------------
 Sampling iteration 179 ...
-Finish iteration
+Finish iteration, using time 8.83576488494873
+the llhw of this iteration is -7.8239018277906025
+----------------------------------
 Sampling iteration 180 ...
-Finish iteration
+Finish iteration, using time 8.75501012802124
+the llhw of this iteration is -7.806712098050097
+----------------------------------
 Sampling iteration 181 ...
-Finish iteration
+Finish iteration, using time 8.967166185379028
+the llhw of this iteration is -7.843621726113417
+----------------------------------
 Sampling iteration 182 ...
-Finish iteration
+Finish iteration, using time 8.807500123977661
+the llhw of this iteration is -7.824587434440589
+----------------------------------
 Sampling iteration 183 ...
-Finish iteration
+Finish iteration, using time 8.741848945617676
+the llhw of this iteration is -7.8308619062827995
+----------------------------------
 Sampling iteration 184 ...
-Finish iteration
+Finish iteration, using time 9.280013084411621
+the llhw of this iteration is -7.8262829329616945
+----------------------------------
 Sampling iteration 185 ...
-Finish iteration
+Finish iteration, using time 9.28871202468872
+the llhw of this iteration is -7.843432907456814
+----------------------------------
 Sampling iteration 186 ...
-Finish iteration
+Finish iteration, using time 9.382694005966187
+the llhw of this iteration is -7.835387142087005
+----------------------------------
 Sampling iteration 187 ...
-Finish iteration
+Finish iteration, using time 8.92874002456665
+the llhw of this iteration is -7.854464167310859
+----------------------------------
 Sampling iteration 188 ...
-Finish iteration
+Finish iteration, using time 8.904975175857544
+the llhw of this iteration is -7.831563047952399
+----------------------------------
 Sampling iteration 189 ...
-Finish iteration
+Finish iteration, using time 8.969526052474976
+the llhw of this iteration is -7.836483252793812
+----------------------------------
 Sampling iteration 190 ...
-Finish iteration
+Finish iteration, using time 9.311060905456543
+the llhw of this iteration is -7.833534878658994
+----------------------------------
 Sampling iteration 191 ...
-Finish iteration
+Finish iteration, using time 9.191135883331299
+the llhw of this iteration is -7.837905411468527
+----------------------------------
 Sampling iteration 192 ...
-Finish iteration
+Finish iteration, using time 9.29033899307251
+the llhw of this iteration is -7.838543564911887
+----------------------------------
 Sampling iteration 193 ...
-Finish iteration
+Finish iteration, using time 9.901818037033081
+the llhw of this iteration is -7.858620631629423
+----------------------------------
 Sampling iteration 194 ...
-Finish iteration
+Finish iteration, using time 9.001214027404785
+the llhw of this iteration is -7.860044515705586
+----------------------------------
 Sampling iteration 195 ...
-Finish iteration
+Finish iteration, using time 8.688903093338013
+the llhw of this iteration is -7.845817858886774
+----------------------------------
 Sampling iteration 196 ...
-Finish iteration
+Finish iteration, using time 8.703021049499512
+the llhw of this iteration is -7.869311943179136
+----------------------------------
 Sampling iteration 197 ...
-Finish iteration
+Finish iteration, using time 8.764456987380981
+the llhw of this iteration is -7.862113619033538
+----------------------------------
 Sampling iteration 198 ...
-Finish iteration
+Finish iteration, using time 8.734105110168457
+the llhw of this iteration is -7.8715327821105046
+----------------------------------
 Sampling iteration 199 ...
-Finish iteration
+Finish iteration, using time 8.728008031845093
+the llhw of this iteration is -7.853839001120072
+----------------------------------
