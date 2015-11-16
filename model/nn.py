@@ -117,7 +117,8 @@ for it in range(iter_num):
             SGD(args[name], grads[name], step)
 
 word_dict = load_dict("../preprocess/word_dict")
-sampler.simple_save_model(top_words, word_dict, "test")
+sampler.simple_save_model(top_words, word_dict, "test_topwords")
+sampler.simple_save_perplexity("test_perp")
 
 
 

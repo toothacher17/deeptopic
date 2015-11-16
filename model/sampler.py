@@ -1,7 +1,8 @@
 import numpy as np
 import random
 import os
-
+import math
+import time
 
 # Collapsed gibbs sampler
 # sample new topics in each E step
@@ -27,6 +28,8 @@ class Sampler(object):
         self.nd = []        # store word on doc distribution, size M * K
         self.ndsum = []     # store word sum on each doc, size M
 
+        self.llhw = []      # log likelihood function
+        self.time = []      # sampling time for each iteration
 
     # initialize all parameters
     def init_params(self):
@@ -95,6 +98,7 @@ class Sampler(object):
     # the data structure of alpha is numpy array
     def assigning(self, alpha, iter_num, save_model_flag):
         print("Sampling iteration %d ..." %iter_num)
+        start_time = time.time()
 
         # assign new topic to each word in each doc
         for doc_id in range(self.M):
@@ -104,8 +108,45 @@ class Sampler(object):
 
         #if save_model_flag:
         #    self.save_model()
-        print("Finish iteration")
+        end_time = time.time()
+        used_time = end_time - start_time
+        self.time.append(used_time)
+        print("Finish iteration, using time %s" %str(used_time))
+        llhw = self.cal_llhw(alpha)
+        self.llhw.append(llhw)
+        print("the llhw of this iteration is %s" %str(llhw))
+        print("----------------------------------")
 
+
+    # cal the llhw to see the perplexity decreasing
+    # the alpha should be given
+    def cal_llhw(self, alpha):
+        result = 0.0
+        num_tokens = 0
+        # loop all the docs
+        for m in range(len(self.ndsum)):
+            d_sum = 0.0
+            num_tokens += self.ndsum[m]
+            alpha_m = np.sum(alpha[m])
+            wc_m = self.ndsum[m]
+            # loop all the words
+            for n in range(len(self.dset[m])):
+                w_sum = 0.0
+                word_idx = self.dset[m][n]
+                Vbeta = self.V * self.beta
+                beta = self.beta
+                # loop all topics
+                for k in range(self.K):
+                    wc_mk = self.nd[m][k]
+                    wd_nk = self.nd[n][k]
+                    wd_k = self.nwsum[k]
+                    alpha_mk = alpha[m][k]
+                    w_sum += (alpha_mk+wc_mk)*(beta+wd_nk)/(Vbeta+wd_k)
+
+                w_sum = w_sum / (alpha_m+wc_m)
+                d_sum += math.log(w_sum)
+            result += d_sum
+        return result / num_tokens
 
     # simple save model function, save the top 10 words for each topic
     def simple_save_model(self, top_word_num, word_dict, filename):
@@ -123,3 +164,12 @@ class Sampler(object):
                 word_val = str(top_words[i][1])
                 write_file.write("\t" + word_key + ": " + word_val + "\n")
         write_file.close()
+
+    # save perplexity
+    def simple_save_perplexity(self, filename):
+        write_file = open(filename, 'w')
+        for i in range(len(self.llhw)):
+            write_file.write("Iter " + str(i) + " LLHW " + str(self.llhw[i]) \
+                           + " Time " + str(self.time) + "\n")
+        write_file.close()
+

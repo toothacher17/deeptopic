@@ -37,8 +37,9 @@ sampler.init_params()
 
 
 ######### iteration
-for iter_num in range(100):
+for iter_num in range(2):
     # star iteration, pass alpha, iter num, and save model flag
     sampler.assigning(alpha, iter_num, 0)
 
-sampler.simple_save_model(top_num, word_dict, "10_iter")
+sampler.simple_save_model(top_num, word_dict, "test_result")
+sampler.simple_save_perplexity("test_stat")
