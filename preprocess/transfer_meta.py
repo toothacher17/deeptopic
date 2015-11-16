@@ -10,7 +10,7 @@ org_dict = dict()
 year_dict = dict()
 word_dict = dict()
 
-f = open("../data/r1k_file")
+f = open("../data/r50k_file")
 
 index = -1
 title = ""
@@ -83,18 +83,18 @@ len1 = len(author_dict)
 len2 = len(org_dict) + len1
 len3 = len(conf_dict) + len2
 
-write_index_dict(author_dict, "author_dict", 0)
-write_index_dict(org_dict, "org_dict", len1)
-write_index_dict(conf_dict, "conf_dict", len2)
-write_index_dict(year_dict, "year_dict", len3)
-write_index_dict(word_dict, "word_dict", 0)
+write_index_dict(author_dict, "author_dict_50k", 0)
+write_index_dict(org_dict, "org_dict_50k", len1)
+write_index_dict(conf_dict, "conf_dict_50k", len2)
+write_index_dict(year_dict, "year_dict_50k", len3)
+write_index_dict(word_dict, "word_dict_50k", 0)
 
-meta_feature = open("meta_feature", "w")
-word_feature1 = open("word_feature1", "w")
-word_feature2 = open("word_feature2", "w")
+meta_feature = open("meta_feature_50k", "w")
+word_feature1 = open("word_feature1_50k", "w")
+word_feature2 = open("word_feature2_50k", "w")
 
 # loop for the second time to transfer features
-f2 = open("../data/r1k_file")
+f2 = open("../data/r50k_file")
 for line in f2:
     if "-----------------" in line:
         p = Paper(index, title, author_list, org_list, year,\
