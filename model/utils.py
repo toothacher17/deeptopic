@@ -49,4 +49,11 @@ def get_word_size(word_feature):
             word_set.add(index)
     return len(word_set)
 
-
+def get_meta_size(filename):
+    f = open(filename)
+    result = set()
+    for l in f:
+        for x in l.strip().split(" "):
+            result.add(x)
+    f.close()
+    return len(result)

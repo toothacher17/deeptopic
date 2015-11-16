@@ -141,10 +141,11 @@ class Sampler(object):
                     wd_nk = self.nd[n][k]
                     wd_k = self.nwsum[k]
                     alpha_mk = alpha[m][k]
-                    w_sum += (alpha_mk+wc_mk)*(beta+wd_nk)/(Vbeta+wd_k)
+                    w_sum += math.log(
+                             (alpha_mk+wc_mk)*(beta+wd_nk)/(Vbeta+wd_k))
 
-                w_sum = w_sum / (alpha_m+wc_m)
-                d_sum += math.log(w_sum)
+                w_sum -= self.K * math.log((alpha_m+wc_m))
+                d_sum += w_sum
             result += d_sum
         return result / num_tokens
 

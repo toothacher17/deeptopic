@@ -4,6 +4,8 @@ import numpy as np
 from sampler import *
 from utils import *
 from nn_utils import *
+import time
+
 
 ########### model parameters and configurations
 # sampler related args
@@ -13,11 +15,23 @@ iter_num = 200
 top_words = 10
 
 # file related args
+# load small data
 meta_filename = "../preprocess/meta_feature"
 word_filename = "../preprocess/word_feature2"
 
-doc_size = 1000
-meta_size = 3773
+# load bigger data
+#meta_filename = "../preprocess/meta_feature_50k"
+#word_filename = "../preprocess/word_feature2_50k"
+
+word_feature = load_word_data(word_filename)
+doc_size = len(word_feature)
+meta_size = get_meta_size(meta_filename)
+V = get_word_size(word_feature) # V is the word size
+
+
+########## Init sampler
+sampler = Sampler(word_feature, K, V, beta)
+sampler.init_params()
 
 
 ########## configure NN symbolic
@@ -48,23 +62,23 @@ print(dict(zip(arg_names, arg_shape)))
 print(out_shape)
 
 # add meta data as input
-meta_origin = load_meta_data(meta_filename, doc_size, meta_size)
-meta_input = mx.nd.array(meta_origin)
-meta_grad = mx.nd.zeros((1000,3773))
+meta_matrix = load_meta_data(meta_filename, doc_size, meta_size)
+meta_input = mx.nd.array(meta_matrix)
+meta_grad = mx.nd.zeros((doc_size,meta_size))
 
 # init other weight
-w1_input = mx.nd.empty((40,3773))
-w1_input[:] = np.random.uniform(-2.0, 2.0, (40,3773))
-w1_grad = mx.nd.zeros((40,3773))
-w2_input = mx.nd.empty(((20,40)))
-w2_input[:] = np.random.uniform(-2.0, 2.0, (20,40))
-w2_grad = mx.nd.zeros((20,40))
-b1_input = mx.nd.empty(((40,)))
-b1_input[:] = np.random.uniform(-1.0, 1.0, (40,))
-b1_grad = mx.nd.zeros((40,))
-b2_input = mx.nd.empty(((20,)))
-b2_input[:] = np.random.uniform(-1.0, 1.0, (20,))
-b2_grad = mx.nd.zeros((20,))
+w1_input = mx.nd.empty((2*K,meta_size))
+w1_input[:] = np.random.uniform(-0.07, 0.07, (2*K,meta_size))
+w1_grad = mx.nd.zeros((2*K,meta_size))
+w2_input = mx.nd.empty(((K,2*K)))
+w2_input[:] = np.random.uniform(-0.07, 0.07, (K,2*K))
+w2_grad = mx.nd.zeros((K,2*K))
+b1_input = mx.nd.empty(((2*K,)))
+b1_input[:] = np.random.uniform(-0.03, 0.03, (2*K,))
+b1_grad = mx.nd.zeros((2*K,))
+b2_input = mx.nd.empty(((K,)))
+b2_input[:] = np.random.uniform(-0.03, 0.03, (K,))
+b2_grad = mx.nd.zeros((K,))
 
 # bind with executor
 args = dict()
@@ -85,19 +99,11 @@ reqs = ["write" for name in grads]
 texec = act2.bind(ctx=dev, args=args, args_grad=grads, grad_req=reqs)
 
 
-########## Init sampler
-word_feature = load_word_data(word_filename)
-# V is the word size
-V = get_word_size(word_feature)
-sampler = Sampler(word_feature, K, V, beta)
-sampler.init_params()
-
 ########## EM Framework for updates
 # log likelihood gradient, composed by digamma function
-llh_grad = mx.nd.empty((1000,20))
-llh_grad[:] = np.random.uniform(-1.0, 1.0, (1000,20))
+llh_grad = mx.nd.empty((doc_size,K))
+llh_grad[:] = np.random.uniform(0.0, 0.001, (doc_size,K))
 
-# EM framework, update for 20 iters
 for it in range(iter_num):
     #### E step
     # texec forward to get output, then sampling
@@ -114,11 +120,13 @@ for it in range(iter_num):
     texec.backward(out_grads=llh_grad)
     for name in arg_names:
         if name != "meta":
-            SGD(args[name], grads[name], step)
+            #temp_step = step / ((it+1)**2)
+            temp_step = step
+            SGD(args[name], grads[name], temp_step)
 
-word_dict = load_dict("../preprocess/word_dict")
-sampler.simple_save_model(top_words, word_dict, "test_topwords")
-sampler.simple_save_perplexity("test_perp")
+word_dict = load_dict("../preprocess/word_dict_50k")
+sampler.simple_save_model(top_words, word_dict, "nn_top1")
+sampler.simple_save_perplexity("nn_stat1")
 
 
 
