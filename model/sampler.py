@@ -128,24 +128,23 @@ class Sampler(object):
             d_sum = 0.0
             num_tokens += self.ndsum[m]
             alpha_m = np.sum(alpha[m])
-            wc_m = self.ndsum[m]
+            nd_m = self.ndsum[m]
+            Vbeta = self.V * self.beta
+            beta = self.beta
             # loop all the words
             for n in range(len(self.dset[m])):
                 w_sum = 0.0
                 word_idx = self.dset[m][n]
-                Vbeta = self.V * self.beta
-                beta = self.beta
                 # loop all topics
                 for k in range(self.K):
-                    wc_mk = self.nd[m][k]
-                    wd_nk = self.nd[n][k]
-                    wd_k = self.nwsum[k]
+                    nd_mk = self.nd[m][k]
+                    nw_nk = self.nw[word_idx][k]
+                    nw_k = self.nwsum[k]
                     alpha_mk = alpha[m][k]
-                    w_sum += math.log(
-                             (alpha_mk+wc_mk)*(beta+wd_nk)/(Vbeta+wd_k))
+                    w_sum += (alpha_mk+nd_mk)*(beta+nw_nk)/(Vbeta+nw_k)
 
-                w_sum -= self.K * math.log((alpha_m+wc_m))
-                d_sum += w_sum
+                w_sum = w_sum / (alpha_m+nd_m)
+                d_sum += math.log(w_sum)
             result += d_sum
         return result / num_tokens
 

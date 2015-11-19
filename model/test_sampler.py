@@ -5,8 +5,8 @@ from utils import *
 # use simple save model to save top k words and test the sampler
 
 ######### first load word data via utils
-word_filename = "../preprocess/word_feature2"
-word_dictname = "../preprocess/word_dict"
+word_filename = "../preprocess/data/word_feature2"
+word_dictname = "../preprocess/data/word_dict"
 word_feature = load_word_data(word_filename)
 word_dict = load_dict(word_dictname)
 

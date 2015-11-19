@@ -56,7 +56,7 @@ class Paper:
         word_list = str_english.strip().split(' ')
         for w in word_list:
             w = w.lower()
-            if w not in stop_words and w != " ":
+            if w not in stop_words and w != " " and w != "":
                 result_list.append(w)
         return " ".join(r for r in result_list)
 

@@ -14,10 +14,9 @@ beta = 0.1
 iter_num = 200
 top_words = 10
 
-# file related args
 # load small data
-meta_filename = "../preprocess/meta_feature"
-word_filename = "../preprocess/word_feature2"
+meta_filename = "../preprocess/data/meta_feature"
+word_filename = "../preprocess/data/word_feature2"
 
 # load bigger data
 #meta_filename = "../preprocess/meta_feature_50k"
@@ -124,7 +123,7 @@ for it in range(iter_num):
             temp_step = step
             SGD(args[name], grads[name], temp_step)
 
-word_dict = load_dict("../preprocess/word_dict_50k")
+word_dict = load_dict("../preprocess/data/word_dict")
 sampler.simple_save_model(top_words, word_dict, "nn_top1")
 sampler.simple_save_perplexity("nn_stat1")
 
