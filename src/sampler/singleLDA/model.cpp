@@ -13,7 +13,7 @@ model::model()
 
 	M = 0;
 	V = 0;
-	K = 100;
+	K = 20;
 
 	//alpha = 50.0 / K;
 	beta = 0.1;
@@ -26,7 +26,7 @@ model::model()
 	nd_m = NULL;
 	rev_mapper = NULL;
 
-	n_iters = 1000;
+	n_iters = 200;
 	n_save = 200;
 	n_topWords = 0;
 
@@ -181,7 +181,8 @@ int model::train(double ** alpha_mk)
 	std::chrono::high_resolution_clock::time_point ts, tn;
 	std::cout << "Sampling " << n_iters << " iterations!" << std::endl;
 
-	for (int iter = 1; iter <= n_iters; ++iter)
+	//for (int iter = 1; iter <= n_iters; ++iter)
+	for (int iter = 1; iter <= 200; ++iter)
 	{
 		std::cout << "Iteration " << iter << " ..." << std::endl;
 		ts = std::chrono::high_resolution_clock::now();

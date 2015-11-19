@@ -35,8 +35,9 @@ void free_alpha(double *** alpha_mk_ptr, int M) {
 int main(int argc, char ** argv)
 {
 	
-    int M = 39361; // training data size
-    int K = 50;   // topic size
+    // manually set it for test alpha
+    int M = 49499; // training data size
+    int K = 20;   // topic size
 
     // initialize the alpha matrix
     double **alpha_mk = init_alpha(M, K);

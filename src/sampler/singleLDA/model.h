@@ -24,7 +24,8 @@ public:
     int train(double ** alpha_mk);	// train LDA using prescribed algorithm on training data
 	int test(double ** alpha_mk);						// test LDA according to specified method
 
-protected:
+// all need to be public, because we need to access in sampling
+//protected:
 	/****** Enums for testing type model status  ******/
 	enum {							// testing types:
 		INVALID,					// model not initialised
