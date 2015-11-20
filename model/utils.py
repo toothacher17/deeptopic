@@ -49,6 +49,7 @@ def get_word_size(word_feature):
             word_set.add(index)
     return len(word_set)
 
+# get meta data size
 def get_meta_size(filename):
     f = open(filename)
     result = set()

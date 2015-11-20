@@ -108,7 +108,7 @@ for it in range(iter_num):
     # texec forward to get output, then sampling
     texec.forward()
     alpha = texec.outputs[0].asnumpy()
-    sampler.assigning(alpha, it, 0)
+    sampler.assigning(alpha, it)
 
     #### M step
     # first get outer gradients
