@@ -209,7 +209,7 @@ class Sampler(object):
 
         llhw_test = self.cal_llhw_test(alpha_test)
         self.llhw_test.append(llhw_test)
-        print("the llhw_train of this iteration is %s" %str(llhw_test))
+        print("the llhw_test of this iteration is %s" %str(llhw_test))
 
         # get running time
         end_time = time.time()
