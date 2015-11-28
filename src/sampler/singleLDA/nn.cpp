@@ -1,5 +1,4 @@
 #include "lda.h"
-#include "digamma.h"
 
 // This file was used to build the deep topic model
 
@@ -15,17 +14,14 @@ int main(int argc, char ** argv) {
     if (!(lda = model::init(argc, argv))) {
         return 1;
     }
-    int doc_size = lda->trngdata->M;
+    int train_doc_size = lda->trngdata->M;
+    int test_doc_size = lda->testdata->M;
 
-    std::cout << doc_size << std::endl;
-
-    // first read the metadata, implemented in tutils
-    // string filename = "";
-    // int ** meta = read_meta();
-
+    // for debug
+    std::cout << train_doc_size << std::endl;
+    std::cout << test_doc_size << std::endl;
 
 
-
-
+    return 0;
 }
 

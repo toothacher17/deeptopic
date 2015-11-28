@@ -11,11 +11,11 @@ gcc: LDA
 gcc: NN
 
 
-NN : stringtokenizer.o dataset.o fTree.o forest.o vose.o utils.o model.o lda.o nn.o
-	$(CC) $(LFLAGS) nn.o lda.o model.o fTree.o forest.o vose.o utils.o stringtokenizer.o dataset.o -o "NN"
+NN : stringtokenizer.o dataset.o fTree.o utils.o model.o lda.o nn.o
+	$(CC) $(LFLAGS) nn.o lda.o model.o fTree.o utils.o stringtokenizer.o dataset.o -o "NN"
 
-LDA : stringtokenizer.o dataset.o fTree.o forest.o vose.o utils.o model.o lda.o source.o
-	$(CC) $(LFLAGS) source.o lda.o model.o fTree.o forest.o vose.o utils.o stringtokenizer.o dataset.o -o "LDA"
+LDA : stringtokenizer.o dataset.o fTree.o utils.o model.o lda.o source.o
+	$(CC) $(LFLAGS) source.o lda.o model.o fTree.o utils.o stringtokenizer.o dataset.o -o "LDA"
 
 nn.o : nn.cpp lda.h
 	$(CC) $(CFLAGS) nn.cpp
@@ -23,7 +23,7 @@ nn.o : nn.cpp lda.h
 source.o : source.cpp lda.h
 	$(CC) $(CFLAGS) source.cpp
 
-lda.o : lda.h lda.cpp model.h $(CDIR)/fTree.h $(CDIR)/forest.h $(CDIR)/vose.h $(CDIR)/utils.h
+lda.o : lda.h lda.cpp model.h $(CDIR)/fTree.h $(CDIR)/utils.h
 	$(CC) $(CFLAGS) lda.cpp
 
 model.o : model.h model.cpp $(CDIR)/dataset.h $(CDIR)/utils.h
@@ -31,19 +31,13 @@ model.o : model.h model.cpp $(CDIR)/dataset.h $(CDIR)/utils.h
 
 fTree.o : $(CDIR)/fTree.h $(CDIR)/fTree.cpp $(CDIR)/utils.h
 	$(CC) $(CFLAGS) $(CDIR)/fTree.cpp
-	
-forest.o : $(CDIR)/forest.h $(CDIR)/forest.cpp $(CDIR)/utils.h
-	$(CC) $(CFLAGS) $(CDIR)/forest.cpp	
-
-vose.o : $(CDIR)/vose.h $(CDIR)/vose.cpp $(CDIR)/utils.h
-	$(CC) $(CFLAGS) $(CDIR)/vose.cpp
 
 dataset.o : $(CDIR)/dataset.h $(CDIR)/dataset.cpp $(CDIR)/stringtokenizer.h
 	$(CC) $(CFLAGS) $(CDIR)/dataset.cpp
 
 utils.o : $(CDIR)/utils.h $(CDIR)/utils.cpp $(CDIR)/stringtokenizer.h
 	$(CC) $(CFLAGS) $(CDIR)/utils.cpp
-	
+
 stringtokenizer.o : $(CDIR)/stringtokenizer.h $(CDIR)/stringtokenizer.cpp
 	$(CC) $(CFLAGS) $(CDIR)/stringtokenizer.cpp
 

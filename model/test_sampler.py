@@ -29,7 +29,7 @@ alpha = []                      # prior alpha
 for m in range(M):
     temp = []
     for k in range(K):
-        temp.append(2.5)
+        temp.append(1.0)
     alpha.append(temp)
 alpha_test  = alpha[:test_size]
 alpha_train = alpha[test_size:]

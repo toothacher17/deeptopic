@@ -49,7 +49,7 @@ model::model()
 model::~model()
 {
 	if (trngdata) delete trngdata;
-	if (testdata) delete trngdata;
+	if (testdata) delete testdata;
 	
 	
 	if (z)
