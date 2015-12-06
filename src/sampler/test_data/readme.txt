@@ -12,3 +12,9 @@ $ ./fp <document_file> <dictionary_file> <output_file> <number_of_test_docs> [sh
 Example:
 An example script "runner.sh" has been provided which downloads datasets from UCI repository and converts it into Mallet format.
 (nips, enron, nytimes, pubmed)
+
+
+Self-define data:
+The meta.train and meta.test data are the meta data
+The word.train and word.test data are the word data
+
