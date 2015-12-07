@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #DATASET="nips enron"
-DATASET="small"
+DATASET="word"
 METHOD="FTreeLDA"
 NUM_ITER="200"
 NUM_TOPICS="50"

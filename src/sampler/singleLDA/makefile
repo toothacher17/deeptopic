@@ -1,27 +1,31 @@
 CDIR = ../commons
+MXHDIR = ./mxnet
+MXSDIR = /Users/toothacher17/Documents/workspace/mxnet/lib
+BLSDIR = /usr/local/opt/openblas/lib
 
 GNU_CC = g++
-GNU_CFLAGS = -I"$(CDIR)" -O3 -march=core-avx2 -pthread -std=c++11 -c
-GNU_LFLAGS = -I"$(CDIR)" -O3 -march=core-avx2 -pthread -std=c++11
+GNU_CFLAGS = -I"$(CDIR)" -O3 -march=core-avx2 -std=c++11 -c
+#GNU_LFLAGS = -I"$(CDIR)" -L/Users/toothacher17/Documents/workspace/mxnet/lib -lmxnet -L/usr/local/opt/openblas/lib -lopenblas -O3 -march=core-avx2 -std=c++11
+GNU_LFLAGS = -I"$(CDIR)" -L"$(MXSDIR)" -lmxnet -L"$(BLSDIR)" -lopenblas -O3 -march=core-avx2 -std=c++11
 
 gcc: CC=$(GNU_CC)
 gcc: CFLAGS=$(GNU_CFLAGS)
 gcc: LFLAGS=$(GNU_LFLAGS)
-gcc: LDA
+#gcc: LDA
 gcc: NN
 
 
 NN : stringtokenizer.o dataset.o fTree.o utils.o model.o lda.o nn.o
 	$(CC) $(LFLAGS) nn.o lda.o model.o fTree.o utils.o stringtokenizer.o dataset.o -o "NN"
 
-LDA : stringtokenizer.o dataset.o fTree.o utils.o model.o lda.o source.o
-	$(CC) $(LFLAGS) source.o lda.o model.o fTree.o utils.o stringtokenizer.o dataset.o -o "LDA"
+#LDA : stringtokenizer.o dataset.o fTree.o utils.o model.o lda.o source.o
+#	$(CC) $(LFLAGS) source.o lda.o model.o fTree.o utils.o stringtokenizer.o dataset.o -o "LDA"
 
-nn.o : nn.cpp lda.h
+nn.o : nn.cpp lda.h $(MXHDIR)/ndarray.h $(MXHDIR)/base.h
 	$(CC) $(CFLAGS) nn.cpp
 
-source.o : source.cpp lda.h
-	$(CC) $(CFLAGS) source.cpp
+#source.o : source.cpp lda.h
+#	$(CC) $(CFLAGS) source.cpp
 
 lda.o : lda.h lda.cpp model.h $(CDIR)/fTree.h $(CDIR)/utils.h
 	$(CC) $(CFLAGS) lda.cpp
