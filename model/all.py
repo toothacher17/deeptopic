@@ -2,8 +2,10 @@ import mxnet as mx
 import numpy as np
 
 from sampler import *
+from neural import *
 from utils import *
 from nn_utils import *
+
 import time
 import random
 
@@ -17,7 +19,7 @@ top_words = 10
 
 # load small data
 meta_filename = "../preprocess/data/meta_feature"
-word_filename = "../preprocess/data/word_feature2"
+word_filename = "../preprocess/data/filtered_word_feature2"
 test_size = 100
 
 # load bigger data
@@ -70,100 +72,32 @@ sampler.init_params()
 #print(sampler.M_test)
 
 
-
 ########## configure NN symbolic
-## NN configuration with mxnet
-dev = mx.cpu()
-batch_size = 100
-step = 0.01
-
-## configure networks
-# input
-meta = mx.symbol.Variable('meta')
-# first layer, num_hidden is 2*K in order not to lose information
-w1 = mx.symbol.Variable('w1')
-fc1 = mx.symbol.FullyConnected(data=meta,weight=w1,name='fc1',num_hidden=2*K)
-act1 = mx.symbol.Activation(data=fc1,name='act1',act_type="tanh")
-# second layer, num_hidden is K, output is alpha, output is positive
-w2 = mx.symbol.Variable('w2')
-fc2 = mx.symbol.FullyConnected(data=act1,weight=w2,name='fc2',num_hidden=K)
-act2 = mx.symbol.Activation(data=fc2,name='act2',act_type="sigmoid")
-
-## bind the layers with exexcutor
-# the arg includes meta, w1, fc1_bias, w2, fc2_bias
-train_shape = (train_doc_size, meta_size)
-test_shape = (test_doc_size, meta_size)
-
-# debug get the size
-# get the train size
-arg_shape, out_shape, aux_shape = act2.infer_shape(meta=train_shape)
-arg_names = act2.list_arguments()
-print(dict(zip(arg_names, arg_shape)))
-print(out_shape)
-# get the test size
-arg_shape, out_shape, aux_shape = act2.infer_shape(meta=test_shape)
-arg_names = act2.list_arguments()
-print(dict(zip(arg_names, arg_shape)))
-print(out_shape)
-
 # add meta data as input
 meta_train_input = mx.nd.array(meta_train)
 meta_test_input  = mx.nd.array(meta_test)
-meta_train_grad = mx.nd.zeros((train_doc_size,meta_size))
-meta_test_grad  = mx.nd.zeros((test_doc_size,meta_size))
 
 # init other weight
-w1_input = mx.nd.empty((2*K,meta_size))
-w1_input[:] = np.random.uniform(-0.07, 0.07, (2*K,meta_size))
-w1_grad = mx.nd.zeros((2*K,meta_size))
-w2_input = mx.nd.empty(((K,2*K)))
-w2_input[:] = np.random.uniform(-0.07, 0.07, (K,2*K))
-w2_grad = mx.nd.zeros((K,2*K))
-b1_input = mx.nd.empty(((2*K,)))
-b1_input[:] = np.random.uniform(-0.03, 0.03, (2*K,))
-b1_grad = mx.nd.zeros((2*K,))
-b2_input = mx.nd.empty(((K,)))
-b2_input[:] = np.random.uniform(-0.03, 0.03, (K,))
-b2_grad = mx.nd.zeros((K,))
+w1_input = init_random_nd(2*K, meta_size, 0.07, 1)
+w2_input = init_random_nd(K, 2*K, 0.07, 1)
+b1_input = init_random_nd(2*K, 1, 0.03, 0)
+b2_input = init_random_nd(K, 1, 0.03, 0)
 
-## bind with executor
-# first bind with train executor
-train_args = dict()
-train_args['meta'] = meta_train_input
-train_args['w1'] = w1_input
-train_args['w2'] = w2_input
-train_args['fc1_bias'] = b1_input
-train_args['fc2_bias'] = b2_input
+w1_grads = init_zero_nd(2*K, meta_size, 1)
+w2_grads = init_zero_nd(K, 2*K, 1)
+b1_grads = init_zero_nd(2*K, 1, 0)
+b2_grads = init_zero_nd(K, 1, 0)
 
-train_grads = dict()
-train_grads['meta'] = meta_train_grad
-train_grads['w1'] = w1_grad
-train_grads['w2'] = w2_grad
-train_grads['fc1_bias'] = b1_grad
-train_grads['fc2_bias'] = b2_grad
+train_up = Neural(K, train_doc_size, meta_size, meta_train_input, \
+                  w1_input, b1_input, w2_input, b2_input, \
+                  w1_grads, b1_grads, w2_grads, b2_grads)
 
-train_reqs = ["write" for name in train_grads]
-train_texec = act2.bind(ctx=dev, args=train_args, \
-                        args_grad=train_grads, grad_req=train_reqs)
+test_up = Neural(K, test_doc_size, meta_size, meta_test_input, \
+                  w1_input, b1_input, w2_input, b2_input, \
+                  w1_grads, b1_grads, w2_grads, b2_grads)
 
-# then bind with test executor
-test_args = dict()
-test_args['meta'] = meta_test_input
-test_args['w1'] = w1_input
-test_args['w2'] = w2_input
-test_args['fc1_bias'] = b1_input
-test_args['fc2_bias'] = b2_input
-
-test_grads = dict()
-test_grads['meta'] = meta_test_grad
-test_grads['w1'] = w1_grad
-test_grads['w2'] = w2_grad
-test_grads['fc1_bias'] = b1_grad
-test_grads['fc2_bias'] = b2_grad
-
-test_reqs = ["write" for name in test_grads]
-test_texec = act2.bind(ctx=dev, args=test_args, \
-                        args_grad=test_grads, grad_req=test_reqs)
+train_up.infer_shape()
+test_up.infer_shape()
 
 
 ########## EM Framework for updates
@@ -174,10 +108,10 @@ llh_grad[:] = np.random.uniform(0.0, 0.001, (train_doc_size,K))
 for it in range(iter_num):
     #### E step
     # texec forward to get output, then sampling
-    train_texec.forward()
-    alpha_train = train_texec.outputs[0].asnumpy()
-    test_texec.forward()
-    alpha_test = test_texec.outputs[0].asnumpy()
+    train_up.texec.forward()
+    alpha_train = train_up.texec.outputs[0].asnumpy()
+    test_up.texec.forward()
+    alpha_test = test_up.texec.outputs[0].asnumpy()
     sampler.assigning(alpha_train, alpha_test,it)
 
     #### M step
@@ -186,14 +120,15 @@ for it in range(iter_num):
     llh_temp = cal_llh_grad(sampler, alpha_train, llh_temp)
     llh_grad = mx.nd.array(llh_temp)
     # then update all args
-    train_texec.backward(out_grads=llh_grad)
-    for name in arg_names:
-        if name != "meta":
+    train_up.texec.backward(out_grads=llh_grad)
+    for name in train_up.args_dict:
+        if name != "data":
             #temp_step = step / ((it+1)**2)
             temp_step = step
-            SGD(train_args[name], train_grads[name], temp_step)
+            SGD(train_up.args_dict[name], train_up.grads_dict[name], \
+                temp_step)
 
-word_dict = load_dict("../preprocess/data/word_dict")
+word_dict = load_dict("../preprocess/data/filtered_word_dict")
 sampler.simple_save_model(top_words, word_dict, "nn_top1")
 sampler.simple_save_perplexity("nn_stat1")
 

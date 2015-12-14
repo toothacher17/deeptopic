@@ -19,7 +19,7 @@ top_words = 10
 
 # load small data
 meta_filename = "../preprocess/data/meta_feature"
-word_filename = "../preprocess/data/word_feature2"
+word_filename = "../preprocess/data/filtered_word_feature2"
 test_size = 100
 
 # load bigger data
@@ -128,7 +128,7 @@ for it in range(iter_num):
             SGD(train_up.args_dict[name], train_up.grads_dict[name], \
                 temp_step)
 
-word_dict = load_dict("../preprocess/data/word_dict")
+word_dict = load_dict("../preprocess/data/filtered_word_dict")
 sampler.simple_save_model(top_words, word_dict, "nn_top1")
 sampler.simple_save_perplexity("nn_stat1")
 

@@ -14,11 +14,11 @@ class Sampler(object):
     # dset: Doc Words, size M * v
     # K: Topic size; V: Word size
     # beta: prior
-    def __init__(self, dset, dset_test, K, beta, V):
+    def __init__(self, dset, dset_test, K, V):
         self.K = K
-        self.beta = beta
+        #self.beta = beta
         self.p = []         # store sampling probability, size k
-        self.test_iter = 10   # test iteration
+        self.test_iter = 5   # test iteration
 
         # training related data
         self.dset = dset
@@ -104,9 +104,10 @@ class Sampler(object):
     # sampling a new topic for each doc_id, word_id
     # the alpha is get from forward result via NN
     # the data structure of alpha is numpy array
-    def sampling_train(self, doc_id, word_id, alpha_d):
+    def sampling_train(self, doc_id, word_id, wordmap_id,\
+                       alpha_d, beta_w, beta_sum):
+
         topic = self.Z[doc_id][word_id]
-        wordmap_id = self.dset[doc_id][word_id]
 
         # collapsed gibbs sampler, first should minus 1 before sampling
         self.nw[wordmap_id][topic] -= 1
@@ -115,13 +116,14 @@ class Sampler(object):
         self.ndsum[doc_id] -= 1
 
         # some param
-        Vbeta = self.V * self.beta
         Kalpha = np.sum(alpha_d)
 
         # sample a new topic
         # calculate the probability density for each topic
         for k in range(self.K):
-            self.p[k] = (self.nw[wordmap_id][k]+self.beta)/(self.nwsum[k]+Vbeta) * \
+            Vbeta = beta_sum[k]
+            beta = beta_w[k]
+            self.p[k] = (self.nw[wordmap_id][k]+beta)/(self.nwsum[k]+Vbeta) * \
                         (self.nd[doc_id][k]+alpha_d[k])/(self.ndsum[doc_id]+Kalpha)
         # calculate the probability accum for each topic
         for k in range(1,self.K):
@@ -141,27 +143,28 @@ class Sampler(object):
 
     # sampling training dataset
     # basic algorithm was the same
-    def sampling_test(self, doc_id, word_id, alpha_d):
+    def sampling_test(self, doc_id, word_id, wordmap_id, \
+                      alpha_d, beta_w, beta_sum):
         # first get prev topic
         # the word id is the word pos id in a doc
         # the wordmap_id is the word id in the word dict
         topic = self.Z_test[doc_id][word_id]
-        wordmap_id = self.dset_test[doc_id][word_id]
 
         self.nw_test[wordmap_id][topic] -= 1
         self.nwsum_test[topic] -= 1
         self.nd_test[doc_id][topic] -= 1
         self.ndsum_test[doc_id] -= 1
 
-        Vbeta = self.V_test * self.beta
         # alpha_d is the row for the doc d
         Kalpha = np.sum(alpha_d)
 
         ## samppling a new topic
         # get prob p
         for k in range(self.K):
+            beta = beta_w[k]
+            Vbeta = beta_sum[k]
             self.p[k] = \
-            (self.nw_test[wordmap_id][k]+self.beta)/(self.nwsum_test[k]+Vbeta) * \
+            (self.nw_test[wordmap_id][k]+beta)/(self.nwsum_test[k]+Vbeta) * \
             (self.nd_test[doc_id][k]+alpha_d[k])/(self.ndsum_test[doc_id]+Kalpha)
         # get the P
         for k in range(1, self.K):
@@ -183,45 +186,54 @@ class Sampler(object):
     # assigning new topic to each word in each doc
     # the alpha is get from forward result via NN
     # the data structure of alpha is numpy array
-    def assigning(self, alpha_train, alpha_test, iter_num):
+    def assigning(self, alpha_train, alpha_test, beta, iter_num):
         print("Sampling iteration %d ..." %iter_num)
         start_time = time.time()
 
+        # first, get the sum of beta for each topic
+        beta_sum = beta.sum(axis=0)
         # training, assign new topic to each word in each doc
         for doc_id in range(self.M):
             for word_id in range(len(self.dset[doc_id])):
-                new_topic = self.sampling_train(doc_id, word_id, \
-                                                alpha_train[doc_id])
+                wordmap_id = self.dset[doc_id][word_id]
+
+                new_topic = self.sampling_train(doc_id,word_id,wordmap_id,\
+                                                alpha_train[doc_id],\
+                                                beta[wordmap_id], \
+                                                beta_sum)
+
                 self.Z[doc_id][word_id] = new_topic
 
-        llhw = self.cal_llhw(alpha_train)
-        self.llhw.append(llhw)
+        llhw = self.cal_llhw(alpha_train, beta, beta_sum)
+        #self.llhw.append(llhw)
         print("the llhw_train of this iteration is %s" %str(llhw))
 
         # testing, test the test dataset, sample 10 times
         for it in range(self.test_iter):
             for doc_id in range(self.M_test):
-                doc_len = len(self.dset_test[doc_id])
-                for word_id in range(doc_len):
-                    new_topic = self.sampling_test(doc_id, word_id, \
-                                                   alpha_test[doc_id])
+                for word_id in range(len(self.dset_test[doc_id])):
+                    wordmap_id = self.dset_test[doc_id][word_id]
+                    new_topic=self.sampling_test(doc_id,word_id,wordmap_id, \
+                                                alpha_test[doc_id], \
+                                                beta[wordmap_id], \
+                                                beta_sum)
                     self.Z_test[doc_id][word_id] = new_topic
 
-        llhw_test = self.cal_llhw_test(alpha_test)
-        self.llhw_test.append(llhw_test)
+        llhw_test = self.cal_llhw_test(alpha_test, beta, beta_sum)
+        #self.llhw_test.append(llhw_test)
         print("the llhw_test of this iteration is %s" %str(llhw_test))
 
         # get running time
         end_time = time.time()
         used_time = end_time - start_time
-        self.time.append(used_time)
+        #self.time.append(used_time)
         print("Finish iteration, using time %s" %str(used_time))
         print("----------------------------------")
 
 
     # cal the llhw to see the perplexity decreasing
     # the alpha should be given
-    def cal_llhw(self, alpha):
+    def cal_llhw(self, alpha, beta_all, beta_sum):
         result = 0.0
         num_tokens = 0
         # loop all the docs
@@ -230,14 +242,16 @@ class Sampler(object):
             num_tokens += self.ndsum[m]
             alpha_m = np.sum(alpha[m])
             nd_m = self.ndsum[m]
-            Vbeta = self.V * self.beta
-            beta = self.beta
+            #Vbeta = self.V * self.beta
+            #beta = self.beta
             # loop all the words
             for n in range(len(self.dset[m])):
                 w_sum = 0.0
                 word_idx = self.dset[m][n]
                 # loop all topics
                 for k in range(self.K):
+                    beta = beta_all[word_idx][k]
+                    Vbeta = beta_sum[k]
                     nd_mk = self.nd[m][k]
                     nw_nk = self.nw[word_idx][k]
                     nw_k = self.nwsum[k]
@@ -251,7 +265,7 @@ class Sampler(object):
 
 
     # cal the test llhw
-    def cal_llhw_test(self, alpha):
+    def cal_llhw_test(self, alpha, beta_all, beta_sum):
         result = 0.0
         num_tokens = 0.0
         # loop all doc
@@ -260,13 +274,15 @@ class Sampler(object):
             num_tokens += self.ndsum_test[m]
             alpha_m = np.sum(alpha[m])
             nd_m = self.ndsum_test[m]
-            beta = self.beta
-            Vbeta = self.V_test * beta
+            #beta = self.beta
+            #Vbeta = self.V_test * beta
             # loop every word
             for n in range(nd_m):
                 w_sum = 0.0     # score for a word
                 word_idx = self.dset_test[m][n]
                 for k in range(self.K):
+                    beta = beta_all[word_idx][k]
+                    Vbeta = beta_sum[k]
                     nd_mk = self.nd_test[m][k]
                     nw_nk = self.nw_test[word_idx][k]
                     nw_k = self.nwsum_test[k]

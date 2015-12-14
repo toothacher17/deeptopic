@@ -34,15 +34,22 @@ for m in range(M):
 alpha_test  = alpha[:test_size]
 alpha_train = alpha[test_size:]
 
+# initialize the beta, beta is V * K
+beta = np.zeros((V,K),dtype=np.float)
+for v in range(V):
+    for k in range(K):
+        beta[v][k] = 0.1
+
+
 # set sampler
-sampler = Sampler(data_train, data_test, K, beta, V)
+sampler = Sampler(data_train, data_test, K, V)
 sampler.init_params()
 
 
 ######### iteration
 for iter_num in range(iter_num):
     # star iteration, pass alpha, iter num, and save model flag
-    sampler.assigning(alpha_train, alpha_test, iter_num)
+    sampler.assigning(alpha_train, alpha_test, beta, iter_num)
 
 
 ######## save results

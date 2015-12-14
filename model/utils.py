@@ -17,6 +17,21 @@ def load_meta_data(filename, doc_size, feature_size):
     meta_file.close()
     return result
 
+# load word2vec into a np matrix
+# the input: filename, word_size, vec_size
+def load_word2vec(filename, word_size, vec_size):
+    result = np.zeros((word_size, vec_size), dtype=np.float)
+    word2vec_file = open(filename)
+
+    index = 0
+    for line in word2vec_file:
+        values = [float(x) for x in line.strip().split(" ")]
+        result[index] = values
+        index += 1
+
+    word2vec_file.close()
+    return result
+
 
 # load word data for collapsed gibbs sampler
 # store the data as sparse vector
