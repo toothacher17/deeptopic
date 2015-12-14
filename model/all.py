@@ -106,7 +106,6 @@ arg_names = act2.list_arguments()
 print(dict(zip(arg_names, arg_shape)))
 print(out_shape)
 
-
 # add meta data as input
 meta_train_input = mx.nd.array(meta_train)
 meta_test_input  = mx.nd.array(meta_test)
