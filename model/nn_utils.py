@@ -6,16 +6,31 @@ from digamma import digamma
 def SGD(weight, grad, step):
     weight[:] -= step * grad
 
-# get llh grad for neural nets
-def cal_llh_grad(sampler, alpha, grad):
-    for i in range(len(alpha)):
-        alpha_i = np.sum(alpha[i])
-        wc_i = sampler.ndsum[i]
-        for j in range(len(alpha[i])):
-            alpha_ij = alpha[i][j]
-            wc_ij = sampler.nd[i][j]
-            grad[i][j] = digamma(alpha_i) - digamma(wc_i+alpha_i) + \
-                          digamma(alpha_ij+wc_ij) - digamma(alpha_ij)
+# get llh grad for up neural nets
+def cal_up_llh_grad(sampler, alpha, grad):
+    for m in range(len(alpha)):
+        alpha_m = np.sum(alpha[m])
+        wc_m = sampler.ndsum[m]
+        for k in range(len(alpha[m])):
+            alpha_mk = alpha[m][k]
+            wc_mk = sampler.nd[m][k]
+            grad[m][k] = digamma(alpha_m) - digamma(wc_m+alpha_m) + \
+                         digamma(alpha_mk+wc_mk) - digamma(alpha_mk)
+    return grad
+
+
+# get llh grad for down neural nets
+def cal_down_llh_grad(sampler, beta, grad):
+    beta_sum = beta.sum(axis=0)
+    for v in range(len(beta)):
+        for k in range(sampler.K):
+            beta_k = beta_sum[k]
+            beta_vk = beta[v][k]
+            wc_vk = sampler.nw[v][k]
+            wc_k = sampler.nwsum[k]
+            grad[v][k] = digamma(beta_k) - digamma(beta_k+wc_k) + \
+                         digamma(beta_vk+wc_vk) - digamma(beta_vk)
+
     return grad
 
 # init mxnet random ndarray

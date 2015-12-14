@@ -53,5 +53,5 @@ for iter_num in range(iter_num):
 
 
 ######## save results
-sampler.simple_save_model(top_num, word_dict, "lda_top1")
-sampler.simple_save_perplexity("lda_stat1")
+#sampler.simple_save_model(top_num, word_dict, "lda_top1")
+#sampler.simple_save_perplexity("lda_stat1")

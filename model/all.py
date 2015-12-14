@@ -20,6 +20,8 @@ top_words = 10
 # load small data
 meta_filename = "../preprocess/data/meta_feature"
 word_filename = "../preprocess/data/filtered_word_feature2"
+word2vec_filename = "../preprocess/data/filtered_word2vec"
+vec_size = 40
 test_size = 100
 
 # load bigger data
@@ -57,6 +59,10 @@ for j in range(test_size, len(word_feature)):
     shuffle_idx = shuffle_idx_list[j]
     meta_train[i-test_size] = meta_matrix[shuffle_idx]
 
+# load word2vec
+word2vec = load_word2vec(word2vec_filename, V, vec_size)
+
+
 # debug the size
 #print(len(meta_train))
 #print(len(meta_test))
@@ -64,46 +70,73 @@ for j in range(test_size, len(word_feature)):
 
 
 ########## Init sampler
-sampler = Sampler(word_train, word_test, K, beta, V)
+sampler = Sampler(word_train, word_test, K, V)
 sampler.init_params()
 
 # debug the size
 #print(sampler.M)
 #print(sampler.M_test)
+#print(len(word2vec))
+#print(len(word2vec[0]))
 
 
 ########## configure NN symbolic
+##### init up condition
 # add meta data as input
 meta_train_input = mx.nd.array(meta_train)
 meta_test_input  = mx.nd.array(meta_test)
 
 # init other weight
-w1_input = init_random_nd(2*K, meta_size, 0.07, 1)
-w2_input = init_random_nd(K, 2*K, 0.07, 1)
-b1_input = init_random_nd(2*K, 1, 0.03, 0)
-b2_input = init_random_nd(K, 1, 0.03, 0)
+up_w1_input = init_random_nd(2*K, meta_size, 0.07, 1)
+up_w2_input = init_random_nd(K, 2*K, 0.07, 1)
+up_b1_input = init_random_nd(2*K, 1, 0.03, 0)
+up_b2_input = init_random_nd(K, 1, 0.03, 0)
 
-w1_grads = init_zero_nd(2*K, meta_size, 1)
-w2_grads = init_zero_nd(K, 2*K, 1)
-b1_grads = init_zero_nd(2*K, 1, 0)
-b2_grads = init_zero_nd(K, 1, 0)
+up_w1_grads = init_zero_nd(2*K, meta_size, 1)
+up_w2_grads = init_zero_nd(K, 2*K, 1)
+up_b1_grads = init_zero_nd(2*K, 1, 0)
+up_b2_grads = init_zero_nd(K, 1, 0)
 
 train_up = Neural(K, train_doc_size, meta_size, meta_train_input, \
-                  w1_input, b1_input, w2_input, b2_input, \
-                  w1_grads, b1_grads, w2_grads, b2_grads)
+                  up_w1_input, up_b1_input, up_w2_input, up_b2_input, \
+                  up_w1_grads, up_b1_grads, up_w2_grads, up_b2_grads)
 
 test_up = Neural(K, test_doc_size, meta_size, meta_test_input, \
-                  w1_input, b1_input, w2_input, b2_input, \
-                  w1_grads, b1_grads, w2_grads, b2_grads)
+                 up_w1_input, up_b1_input, up_w2_input, up_b2_input, \
+                 up_w1_grads, up_b1_grads, up_w2_grads, up_b2_grads)
 
-train_up.infer_shape()
-test_up.infer_shape()
+#### init down condition
+word2vec_input = mx.nd.array(word2vec)
+
+down_w1_input = init_random_nd(2*K, vec_size, 0.0007, 1)
+down_w2_input = init_random_nd(K, 2*K, 0.0007, 1)
+down_b1_input = init_random_nd(2*K, 1, 0.0003, 0)
+down_b2_input = init_random_nd(K, 1, 0.0003, 0)
+
+down_w1_grads = init_zero_nd(2*K, vec_size, 1)
+down_w2_grads = init_zero_nd(K, 2*K, 1)
+down_b1_grads = init_zero_nd(2*K, 1, 0)
+down_b2_grads = init_zero_nd(K, 1, 0)
+
+down = Neural(K, V, vec_size, word2vec_input, \
+              down_w1_input, down_b1_input, down_w2_input, down_b2_input, \
+              down_w1_grads, down_b1_grads, down_w2_grads, down_b2_grads)
+
+# debug for nn configure
+#train_up.infer_shape()
+#test_up.infer_shape()
+#down.infer_shape()
 
 
 ########## EM Framework for updates
 # log likelihood gradient, composed by digamma function
-llh_grad = mx.nd.empty((train_doc_size,K))
-llh_grad[:] = np.random.uniform(0.0, 0.001, (train_doc_size,K))
+up_llh_grad = mx.nd.empty((train_doc_size,K))
+up_llh_grad[:] = np.random.uniform(0.0, 0.001, (train_doc_size,K))
+
+down_llh_grad = mx.nd.empty((V,K))
+down_llh_grad[:] = np.random.uniform(0.0, 0.001, (V,K))
+
+
 
 for it in range(iter_num):
     #### E step
@@ -112,25 +145,36 @@ for it in range(iter_num):
     alpha_train = train_up.texec.outputs[0].asnumpy()
     test_up.texec.forward()
     alpha_test = test_up.texec.outputs[0].asnumpy()
-    sampler.assigning(alpha_train, alpha_test,it)
+    down.texec.forward()
+    beta = down.texec.outputs[0].asnumpy()
+    sampler.assigning(alpha_train, alpha_test, beta, it)
 
     #### M step
     # first get outer gradients
-    llh_temp = llh_grad.asnumpy()
-    llh_temp = cal_llh_grad(sampler, alpha_train, llh_temp)
-    llh_grad = mx.nd.array(llh_temp)
+    up_llh_temp = up_llh_grad.asnumpy()
+    up_llh_temp = cal_up_llh_grad(sampler, alpha_train, up_llh_temp)
+    up_llh_grad = mx.nd.array(up_llh_temp)
+
+    down_llh_temp = down_llh_grad.asnumpy()
+    down_llh_temp = cal_down_llh_grad(sampler, beta, down_llh_temp)
+    down_llh_grad = mx.nd.array(down_llh_temp)
+
     # then update all args
-    train_up.texec.backward(out_grads=llh_grad)
+    train_up.texec.backward(out_grads=up_llh_grad)
+    down.texec.backward(out_grads=down_llh_grad)
+
     for name in train_up.args_dict:
         if name != "data":
             #temp_step = step / ((it+1)**2)
             temp_step = step
             SGD(train_up.args_dict[name], train_up.grads_dict[name], \
                 temp_step)
+            SGD(down.args_dict[name], down.grads_dict[name], \
+                temp_step)
 
-word_dict = load_dict("../preprocess/data/filtered_word_dict")
-sampler.simple_save_model(top_words, word_dict, "nn_top1")
-sampler.simple_save_perplexity("nn_stat1")
+#word_dict = load_dict("../preprocess/data/filtered_word_dict")
+#sampler.simple_save_model(top_words, word_dict, "nn_top1")
+#sampler.simple_save_perplexity("nn_stat1")
 
 #"""
 

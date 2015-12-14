@@ -62,9 +62,15 @@ for j in range(test_size, len(word_feature)):
 #print(len(meta_test))
 
 
+# initialize the beta, beta is V * K
+beta = np.zeros((V,K),dtype=np.float)
+for v in range(V):
+    for k in range(K):
+        beta[v][k] = 0.1
+
 
 ########## Init sampler
-sampler = Sampler(word_train, word_test, K, beta, V)
+sampler = Sampler(word_train, word_test, K, V)
 sampler.init_params()
 
 # debug the size
@@ -96,8 +102,10 @@ test_up = Neural(K, test_doc_size, meta_size, meta_test_input, \
                   w1_input, b1_input, w2_input, b2_input, \
                   w1_grads, b1_grads, w2_grads, b2_grads)
 
-train_up.infer_shape()
-test_up.infer_shape()
+
+# debug nn config
+#train_up.infer_shape()
+#test_up.infer_shape()
 
 
 ########## EM Framework for updates
@@ -112,12 +120,12 @@ for it in range(iter_num):
     alpha_train = train_up.texec.outputs[0].asnumpy()
     test_up.texec.forward()
     alpha_test = test_up.texec.outputs[0].asnumpy()
-    sampler.assigning(alpha_train, alpha_test,it)
+    sampler.assigning(alpha_train, alpha_test, beta, it)
 
     #### M step
     # first get outer gradients
     llh_temp = llh_grad.asnumpy()
-    llh_temp = cal_llh_grad(sampler, alpha_train, llh_temp)
+    llh_temp = cal_up_llh_grad(sampler, alpha_train, llh_temp)
     llh_grad = mx.nd.array(llh_temp)
     # then update all args
     train_up.texec.backward(out_grads=llh_grad)
@@ -128,9 +136,9 @@ for it in range(iter_num):
             SGD(train_up.args_dict[name], train_up.grads_dict[name], \
                 temp_step)
 
-word_dict = load_dict("../preprocess/data/filtered_word_dict")
-sampler.simple_save_model(top_words, word_dict, "nn_top1")
-sampler.simple_save_perplexity("nn_stat1")
+#word_dict = load_dict("../preprocess/data/filtered_word_dict")
+#sampler.simple_save_model(top_words, word_dict, "nn_top1")
+#sampler.simple_save_perplexity("nn_stat1")
 
 #"""
 
