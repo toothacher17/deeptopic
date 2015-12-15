@@ -205,7 +205,7 @@ class Sampler(object):
                 self.Z[doc_id][word_id] = new_topic
 
         llhw = self.cal_llhw(alpha_train, beta, beta_sum)
-        #self.llhw.append(llhw)
+        self.llhw.append(llhw)
         print("the llhw_train of this iteration is %s" %str(llhw))
 
         # testing, test the test dataset, sample 10 times
@@ -220,7 +220,7 @@ class Sampler(object):
                     self.Z_test[doc_id][word_id] = new_topic
 
         llhw_test = self.cal_llhw_test(alpha_test, beta, beta_sum)
-        #self.llhw_test.append(llhw_test)
+        self.llhw_test.append(llhw_test)
         print("the llhw_test of this iteration is %s" %str(llhw_test))
 
         # get running time
@@ -316,8 +316,11 @@ class Sampler(object):
     def simple_save_perplexity(self, filename):
         write_file = open(filename, 'w')
         for i in range(len(self.llhw)):
-            write_file.write("Iter " + str(i) + " LLHW " + str(self.llhw[i]) \
-                           + " Time " + str(self.time[i]) + "\n")
+            write_file.write("Iter " + str(i) + " LLHW " + \
+                    str(self.llhw[i]) + "\n")
+        for i in range(len(self.llhw_test)):
+            write_file.write("Iter " + str(i) + " LLHW_test " + \
+                              str(self.llhw_test[i]) + "\n")
         write_file.close()
 
 

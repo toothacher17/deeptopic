@@ -136,9 +136,9 @@ for it in range(iter_num):
             SGD(train_up.args_dict[name], train_up.grads_dict[name], \
                 temp_step)
 
-#word_dict = load_dict("../preprocess/data/filtered_word_dict")
-#sampler.simple_save_model(top_words, word_dict, "nn_top1")
-#sampler.simple_save_perplexity("nn_stat1")
+word_dict = load_dict("../preprocess/data/filtered_word_dict")
+sampler.simple_save_model(top_words, word_dict, "up_top1")
+sampler.simple_save_perplexity("up_stat1")
 
 #"""
 

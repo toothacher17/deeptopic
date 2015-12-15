@@ -13,7 +13,7 @@ import random
 ########### model parameters and configurations
 # sampler related args
 K = 20
-beta = 0.1
+#beta = 0.1
 iter_num = 200
 top_words = 10
 
@@ -172,9 +172,9 @@ for it in range(iter_num):
             SGD(down.args_dict[name], down.grads_dict[name], \
                 temp_step)
 
-#word_dict = load_dict("../preprocess/data/filtered_word_dict")
-#sampler.simple_save_model(top_words, word_dict, "nn_top1")
-#sampler.simple_save_perplexity("nn_stat1")
+word_dict = load_dict("../preprocess/data/filtered_word_dict")
+sampler.simple_save_model(top_words, word_dict, "all_top1")
+sampler.simple_save_perplexity("all_stat1")
 
 #"""
 
